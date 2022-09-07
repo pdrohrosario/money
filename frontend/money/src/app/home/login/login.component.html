@@ -1,5 +1,5 @@
 <h3 class="text-center">Login</h3>
-<form class="form mt-4" (ngSubmit)="login()">
+<form class="form mt-4" (ngSubmit)="login()" #loginForm="ngForm">
   <div class="form-group mb-3">
     <input
       class="form-control"
@@ -7,7 +7,13 @@
       placeholder="Email"
       [(ngModel)]="email"
       name="email"
+      #emailField="ngModel"
+      required=""
     />
+    <app-message
+      *ngIf="emailField.invalid && emailField.touched"
+      message="O campo email é obrigatório"
+    ></app-message>
   </div>
   <div class="form-group mb-3">
     <input
@@ -16,7 +22,13 @@
       placeholder="Password"
       [(ngModel)]="password"
       name="password"
+      #passwordField="ngModel"
+      required
     />
+    <app-message
+      *ngIf="passwordField.invalid && passwordField.touched"
+      message="O campo password é obrigatório"
+    ></app-message>
   </div>
-  <button type="submit" class="btn btn-success btn-block">Login</button>
+  <button type="submit" class="btn btn-success btn-block" [disabled]="loginForm.invalid">Login</button>
 </form>
