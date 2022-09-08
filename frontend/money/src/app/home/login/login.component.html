@@ -1,18 +1,24 @@
 <h3 class="text-center">Login</h3>
-<form class="form mt-4" (ngSubmit)="login()" #loginForm="ngForm">
+<form class="form mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="form-group mb-3">
     <input
       class="form-control"
       type="text"
       placeholder="Email"
-      [(ngModel)]="email"
+      formControlName="email"
       name="email"
-      #emailField="ngModel"
-      required=""
     />
     <app-message
-      *ngIf="emailField.invalid && emailField.touched"
+      *ngIf="
+        loginForm.get('email')?.errors?.['required'] &&
+        loginForm.get('email')?.touched"
       message="O campo email é obrigatório"
+    ></app-message>
+    <app-message
+      *ngIf="
+        loginForm.get('email')?.errors?.['email'] &&
+        loginForm.get('email')?.touched"
+      message="O email está no formato incorreto"
     ></app-message>
   </div>
   <div class="form-group mb-3">
@@ -20,15 +26,34 @@
       class="form-control"
       type="password"
       placeholder="Password"
-      [(ngModel)]="password"
       name="password"
-      #passwordField="ngModel"
+      formControlName="password"
       required
     />
     <app-message
-      *ngIf="passwordField.invalid && passwordField.touched"
+      *ngIf="
+    loginForm.get('password')?.errors?.['required'] &&
+    loginForm.get('password')?.touched
+    "
       message="O campo password é obrigatório"
     ></app-message>
   </div>
-  <button type="submit" class="btn btn-success btn-block" [disabled]="loginForm.invalid">Login</button>
+  <div class="row">
+    <div class="col-md-4">
+      <button
+        type="submit"
+        class="btn btn-success btn-block"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+    </div>
+    <div class="col-md-8">
+      <p class="text-muted">
+        Não possui cadastro no Money?<a [routerLink]="['new-user']"
+          >Acesse esse link</a
+        >
+      </p>
+    </div>
+  </div>
 </form>
