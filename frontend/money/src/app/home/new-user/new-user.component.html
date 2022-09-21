@@ -34,19 +34,19 @@
       type="text"
       class="form-control"
       placeholder="Full Name"
-      formControlName="name"
+      formControlName="fullName"
     />
     <app-message
       *ngIf="
-        newUserForm.get('name')?.errors?.['required'] &&
-        newUserForm.get('name')?.touched
+        newUserForm.get('fullName')?.errors?.['required'] &&
+        newUserForm.get('fullName')?.touched
       "
       message="O campo fullname é obrigatório"
     ></app-message>
     <app-message
       *ngIf="
-        newUserForm.get('name')?.errors?.['minlength'] &&
-        newUserForm.get('name')?.touched
+        newUserForm.get('fullName')?.errors?.['minlength'] &&
+        newUserForm.get('fullName')?.touched
       "
       message="O campo fullname está muito curto"
     ></app-message>

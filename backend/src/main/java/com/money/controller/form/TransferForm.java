@@ -7,6 +7,7 @@ import com.money.model.User;
 import com.money.repository.UserRepository;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class TransferForm
@@ -17,57 +18,36 @@ public class TransferForm
 	private String description;
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
-	private TypeSpent typeSpent;
+	private String typeSpent;
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
-	private PaymentWay paymentWay;
+	private String paymentWay;
 
-	@NotNull
-	private User user;
+	private Long userId;
+
+	public Double getAmountSpent()
+	{
+		return amountSpent;
+	}
 
 	public String getDescription()
 	{
 		return description;
 	}
 
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-
-	public TypeSpent getTypeSpent()
+	public String getTypeSpent()
 	{
 		return typeSpent;
 	}
 
-	public void setTypeSpent(TypeSpent typeSpent)
-	{
-		this.typeSpent = typeSpent;
-	}
-
-	public PaymentWay getPaymentWay()
+	public String getPaymentWay()
 	{
 		return paymentWay;
 	}
 
-	public void setPaymentWay(PaymentWay paymentWay)
+	public Long getUserId()
 	{
-		this.paymentWay = paymentWay;
+		return userId;
 	}
 
-	public User getUser()
-	{
-		return user;
-	}
-
-	public void setUser(User user)
-	{
-		this.user = user;
-	}
-
-	public Transfer converter(UserRepository repository){
-		return new Transfer(amountSpent, description, typeSpent, paymentWay, user);
-	}
 }
