@@ -1,9 +1,6 @@
 package com.money.controller.form;
 
-import com.money.model.TypeSpent;
-import com.money.model.User;
 import java.time.LocalDateTime;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

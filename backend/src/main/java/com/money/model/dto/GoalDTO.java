@@ -6,6 +6,8 @@ public class GoalDTO
 
 	private String typeSpent;
 
+	private String email;
+
 	private Double amount;
 
 	public Long getId()

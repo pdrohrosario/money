@@ -1,7 +1,6 @@
 package com.money.model;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import javax.persistence.*;
 
 @Entity
@@ -11,16 +10,15 @@ public class Goal
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private TypeSpent typeSpent;
+	private Long typeSpentId;
 
 	private Double amount;
 
-	@ManyToOne
-	private User user;
-
 	private String description;
 
-	private LocalDateTime startDate;
+	private Long userId;
+
+	private LocalDateTime startDate = LocalDateTime.now();
 
 	private LocalDateTime endDate;
 
@@ -34,14 +32,14 @@ public class Goal
 		this.id = id;
 	}
 
-	public TypeSpent getTypeSpent()
+	public Long getTypeSpentId()
 	{
-		return typeSpent;
+		return typeSpentId;
 	}
 
-	public void setTypeSpent(TypeSpent typeSpent)
+	public void setTypeSpentId(Long typeSpentId)
 	{
-		this.typeSpent = typeSpent;
+		this.typeSpentId = typeSpentId;
 	}
 
 	public Double getAmount()
@@ -54,14 +52,14 @@ public class Goal
 		this.amount = amount;
 	}
 
-	public User getUser()
+	public Long getUserId()
 	{
-		return user;
+		return userId;
 	}
 
-	public void setUser(User user)
+	public void setUserId(Long userId)
 	{
-		this.user = user;
+		this.userId = userId;
 	}
 
 	public String getDescription()

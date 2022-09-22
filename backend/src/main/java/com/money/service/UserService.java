@@ -28,7 +28,7 @@ public class UserService
 		newUser.setPassword(passwordEncode);
 		try
 		{
-			this.userRepository.save(newUser);
+			this.userRepository.saveUser(newUser.getEmail(), newUser.getName(), newUser.getPassword());
 		}
 		catch (Exception error){
 			throw new  Exception("error by" + error.getMessage());
@@ -92,5 +92,9 @@ public class UserService
 	private String generatePasswordEncode(String password){
 		BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder();
 		return cryptPasswordEncoder.encode(password);
+	}
+
+	private Integer countIdUser(){
+		return this.userRepository.countIdUser()+1;
 	}
 }

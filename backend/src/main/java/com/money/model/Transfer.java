@@ -1,7 +1,6 @@
 package com.money.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import javax.persistence.*;
 
 @Entity
@@ -18,7 +17,7 @@ public class Transfer
 	private String description;
 
 	@Enumerated(EnumType.STRING)
-	private TypeSpent typeSpent;
+	private Category category;
 
 	@Enumerated(EnumType.STRING)
 	private PaymentWay paymentWay;
@@ -30,12 +29,12 @@ public class Transfer
 
 	}
 
-	public Transfer(Double amountSpent, String description, TypeSpent typeSpent,
+	public Transfer(Double amountSpent, String description, Category category,
 		PaymentWay paymentWay, User user)
 	{
 		this.amountSpent = amountSpent;
 		this.description = description;
-		this.typeSpent = typeSpent;
+		this.category = category;
 		this.paymentWay = paymentWay;
 		this.user = user;
 	}
@@ -80,14 +79,14 @@ public class Transfer
 		this.description = description;
 	}
 
-	public TypeSpent getTypeSpent()
+	public Category getTypeSpent()
 	{
-		return typeSpent;
+		return category;
 	}
 
-	public void setTypeSpent(TypeSpent typeSpent)
+	public void setTypeSpent(Category category)
 	{
-		this.typeSpent = typeSpent;
+		this.category = category;
 	}
 
 	public PaymentWay getPaymentWay()

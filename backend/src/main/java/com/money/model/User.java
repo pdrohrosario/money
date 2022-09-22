@@ -16,11 +16,6 @@ public class User implements UserDetails
 	private String email;
 	private String password;
 
-	@OneToMany
-	private List<Goal> goal = new ArrayList<>();
-
-	@OneToMany
-	private List<Transfer> Transfer = new ArrayList<>();
 	public User(){}
 
 	public User(String name, String email, String password)
@@ -145,23 +140,4 @@ public class User implements UserDetails
 		this.perfis = perfis;
 	}
 
-	public List<Goal> getGoal()
-	{
-		return goal;
-	}
-
-	public void setGoal(List<Goal> goal)
-	{
-		this.goal = goal;
-	}
-
-	public List<com.money.model.Transfer> getTransfer()
-	{
-		return Transfer;
-	}
-
-	public void setTransfer(List<com.money.model.Transfer> transfer)
-	{
-		Transfer = transfer;
-	}
 }
