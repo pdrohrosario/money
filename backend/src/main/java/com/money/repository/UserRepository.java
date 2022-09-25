@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long>
 {
-	@Query(value = "SELECT * FROM user u where u.email=?1 ", nativeQuery = true)
-	Optional<User> findUserByEmail(String email);
+	@Query(value = "SELECT * FROM user u where u.user_name=?1 ", nativeQuery = true)
+	Optional<User> findUserByUserName(String userName);
 
 	@Query(value = "SELECT * FROM user u where u.id=?1 ", nativeQuery = true)
 	Optional<User> findUserById(Long userId);
@@ -31,6 +33,6 @@ public interface UserRepository extends JpaRepository<User, Long>
 
 	@Modifying
 	@Transactional
-	@Query(value = "INSERT INTO user ( email, fullName, password) VALUES (:email, :fullName, :password);",nativeQuery = true)
-	void saveUser(@Param("email") String email, @Param("fullName") String name,@Param("password") String password);
+	@Query(value = "INSERT INTO user (email, name, user_name, password )VALUES (:email, :name, :userName, :password);",nativeQuery = true)
+	void saveUser(String userName, String email,String name,String password);
 }

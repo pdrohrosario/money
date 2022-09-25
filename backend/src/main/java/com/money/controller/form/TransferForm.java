@@ -1,5 +1,6 @@
 package com.money.controller.form;
 
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 
 public class TransferForm
@@ -13,9 +14,13 @@ public class TransferForm
 	private String typeSpent;
 
 	@NotNull
-	private String paymentWay;
+	private LocalDateTime transferDate;
 
-	private Long userId;
+	@NotNull
+	private String userName;
+
+	@NotNull
+	private String paymentWay;
 
 	public Double getAmountSpent()
 	{
@@ -37,9 +42,43 @@ public class TransferForm
 		return paymentWay;
 	}
 
-	public Long getUserId()
+	public void setAmountSpent(Double amountSpent)
 	{
-		return userId;
+		this.amountSpent = amountSpent;
 	}
 
+	public LocalDateTime getTransferDate()
+	{
+		return transferDate;
+	}
+
+	public void setTransferDate(LocalDateTime transferDate)
+	{
+		this.transferDate = transferDate;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
+
+	public void setTypeSpent(String typeSpent)
+	{
+		this.typeSpent = typeSpent;
+	}
+
+	public String getUserName()
+	{
+		return userName;
+	}
+
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
+	}
+
+	public void setPaymentWay(String paymentWay)
+	{
+		this.paymentWay = paymentWay;
+	}
 }

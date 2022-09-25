@@ -11,11 +11,25 @@ public class TransferDTO
 	private Double amountSpent;
 	private LocalDateTime transferDate;
 
-	public TransferDTO(Transfer transfer)
+	public TransferDTO(Long id, Double amountSpent, LocalDateTime transferDate, String typeSpent)
 	{
-		this.id = transfer.getId();
-		this.amountSpent = transfer.getAmountSpent();
-		this.transferDate = transfer.getTransferDate();
+		this.id = id;
+		this.amountSpent = amountSpent;
+		this.transferDate = transferDate;
+		this.typeSpent = typeSpent;
+	}
+
+	public TransferDTO(){}
+	private String typeSpent;
+
+	public String getTypeSpent()
+	{
+		return typeSpent;
+	}
+
+	public void setTypeSpent(String typeSpent)
+	{
+		this.typeSpent = typeSpent;
 	}
 
 	public Long getId()
@@ -33,7 +47,18 @@ public class TransferDTO
 		return transferDate;
 	}
 
-	public static Page<TransferDTO> coverter(Page<Transfer> transfers){
-		return transfers.map(TransferDTO::new);
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	public void setAmountSpent(Double amountSpent)
+	{
+		this.amountSpent = amountSpent;
+	}
+
+	public void setTransferDate(LocalDateTime transferDate)
+	{
+		this.transferDate = transferDate;
 	}
 }

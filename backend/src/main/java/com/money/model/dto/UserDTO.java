@@ -5,8 +5,7 @@ import com.money.model.User;
 public class UserDTO
 {
 	private Long id;
-	private String email;
-	private String fullName;
+	private String userName;
 
 	public Long getId()
 	{
@@ -18,23 +17,13 @@ public class UserDTO
 		this.id = id;
 	}
 
-	public void setEmail(String email)
+	public String getUserName()
 	{
-		this.email = email;
+		return userName;
 	}
 
-	public String getFullName()
+	public void setUserName(String userName)
 	{
-		return fullName;
-	}
-
-	public void setFullName(String fullName)
-	{
-		this.fullName = fullName;
-	}
-
-	public String getEmail()
-	{
-		return email;
+		this.userName = userName;
 	}
 }

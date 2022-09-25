@@ -34,15 +34,15 @@ public class GoalController
 	public Page<GoalDetalheDTO> search(@PathVariable Long id,@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
 		return this.goalService.findGoalsByUserId(id,pageable);
 	}
-	@PostMapping("/{id}/goals")
-	@Transactional
-	public ResponseEntity<GoalDTO> create ( @RequestBody @Valid GoalForm form, @PathVariable Long id,UriComponentsBuilder uriBuilder)
-		throws Exception
-	{
-		GoalDTO dto = this.goalService.create(form, id);
-		URI uri = uriBuilder.path("/user/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
-	}
+//	@PostMapping("/{id}/goals")
+//	@Transactional
+//	public ResponseEntity<GoalDTO> create ( @RequestBody @Valid GoalForm form, @PathVariable Long id,UriComponentsBuilder uriBuilder)
+//		throws Exception
+//	{
+//		GoalDTO dto = this.goalService.create(form, id);
+//		URI uri = uriBuilder.path("/user/{id}").buildAndExpand(dto.getId()).toUri();
+//		return ResponseEntity.created(uri).body(dto);
+//	}
 
 	@DeleteMapping("/{id}/goals")
 	@Transactional

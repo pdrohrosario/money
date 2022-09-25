@@ -1,5 +1,6 @@
 package com.money.model;
 
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +9,10 @@ public class TypeSpent
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Enumerated(EnumType.STRING)
-	private Category category;
+	private String category;
+
+	@OneToMany
+	private List<Transfer> transfer;
 
 	public Long getId()
 	{
@@ -21,13 +24,23 @@ public class TypeSpent
 		this.id = id;
 	}
 
-	public Category getCategory()
+	public String getCategory()
 	{
 		return category;
 	}
 
-	public void setCategory(Category category)
+	public void setCategory(String category)
 	{
 		this.category = category;
+	}
+
+	public List<Transfer> getTransfer()
+	{
+		return transfer;
+	}
+
+	public void setTransfer(List<Transfer> transfer)
+	{
+		this.transfer = transfer;
 	}
 }

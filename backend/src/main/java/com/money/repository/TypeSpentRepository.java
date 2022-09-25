@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface TypeSpentRepository extends JpaRepository<TypeSpent, Long>
 {
 	@Query(value = "SELECT id FROM type_spent t where t.category=?1 ", nativeQuery = true)
-	Long findTypeSpentByName(String categoryName);
+	TypeSpent findTypeSpentByName(String categoryName);
 }

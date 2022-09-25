@@ -12,16 +12,26 @@ public class User implements UserDetails
 {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+
 	private String email;
+	private String name;
+
+	private String userName;
 	private String password;
+
+	@OneToMany
+	List<Transfer> transfers;
+
+	@OneToMany
+	List<Goal> goals;
 
 	public User(){}
 
-	public User(String name, String email, String password)
+	public User(String email, String name, String userName, String password)
 	{
-		this.name = name;
 		this.email = email;
+		this.name = name;
+		this.userName = userName;
 		this.password = password;
 	}
 

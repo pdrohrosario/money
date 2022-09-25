@@ -16,27 +16,17 @@ public class Transfer
 
 	private String description;
 
-	@Enumerated(EnumType.STRING)
-	private Category category;
-
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
 	private PaymentWay paymentWay;
+
+	@ManyToOne
+	private TypeSpent typeSpent;
 
 	@ManyToOne
 	private User user;
 
 	public Transfer(){
 
-	}
-
-	public Transfer(Double amountSpent, String description, Category category,
-		PaymentWay paymentWay, User user)
-	{
-		this.amountSpent = amountSpent;
-		this.description = description;
-		this.category = category;
-		this.paymentWay = paymentWay;
-		this.user = user;
 	}
 
 	public Long getId()
@@ -79,16 +69,6 @@ public class Transfer
 		this.description = description;
 	}
 
-	public Category getTypeSpent()
-	{
-		return category;
-	}
-
-	public void setTypeSpent(Category category)
-	{
-		this.category = category;
-	}
-
 	public PaymentWay getPaymentWay()
 	{
 		return paymentWay;
@@ -97,6 +77,16 @@ public class Transfer
 	public void setPaymentWay(PaymentWay paymentWay)
 	{
 		this.paymentWay = paymentWay;
+	}
+
+	public TypeSpent getTypeSpent()
+	{
+		return typeSpent;
+	}
+
+	public void setTypeSpent(TypeSpent typeSpent)
+	{
+		this.typeSpent = typeSpent;
 	}
 
 	public User getUser()

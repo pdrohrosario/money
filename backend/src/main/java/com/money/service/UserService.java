@@ -1,10 +1,12 @@
 package com.money.service;
 
+import com.money.controller.form.TransferForm;
 import com.money.controller.form.UserForm;
 import com.money.model.User;
 import com.money.model.dto.UserDTO;
 import com.money.repository.UserRepository;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class UserService
 
 	public UserDTO create(UserForm form) throws Exception
 	{
-		if (this.isUserExists(form.getEmail()))
+		if (this.isUserExists(form.getUserName()))
 		{
 			return null;
 		}
@@ -28,7 +30,7 @@ public class UserService
 		newUser.setPassword(passwordEncode);
 		try
 		{
-			this.userRepository.saveUser(newUser.getEmail(), newUser.getName(), newUser.getPassword());
+			this.userRepository.saveUser(newUser.getUsername(), newUser.getEmail(), newUser.getName(), newUser.getPassword());
 		}
 		catch (Exception error){
 			throw new  Exception("error by" + error.getMessage());
@@ -36,13 +38,18 @@ public class UserService
 		return this.converter(newUser);
 	}
 
-	public Boolean isUserExists(String emailUser) {
-		return this.userRepository.findUserByEmail(emailUser).isPresent();
+	public Boolean isUserExists(String userName) {
+		return this.userRepository.findUserByUserName(userName).isPresent();
 	}
 
 	public UserDTO findUserById(Long id){
 		Optional<User> user = this.userRepository.findUserById(id);
 		return user.map(this::converter).orElse(null);
+	}
+
+	public User findUserByUserName(String userName){
+		Optional<User> user = this.userRepository.findUserByUserName(userName);
+		return user.get();
 	}
 
 	public UserDTO update(UserForm form, Long userId) throws Exception
@@ -51,8 +58,8 @@ public class UserService
 		Optional<User> user = this.userRepository.findUserById(userId);
 		if (user.isPresent())
 		{
-			if(form.getFullName() != null)
-				user.get().setName(form.getFullName());
+			if(form.getName() != null)
+				user.get().setName(form.getName());
 
 			if (this.isUserExists(form.getEmail()) && !user.get().getEmail().equals(form.getEmail()))
 			{
@@ -83,8 +90,7 @@ public class UserService
 
 	private UserDTO converter(User user){
 		UserDTO dto = new UserDTO();
-		dto.setEmail(user.getEmail());
-		dto.setFullName(user.getName());
+		dto.setUserName(user.getUsername());
 		dto.setId(user.getId());
 		return dto;
 	}

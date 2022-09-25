@@ -16,12 +16,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@Repository
 public interface GoalRepository extends JpaRepository<Goal,Long>
 {
-	@Query(value="select new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.userId")
-	Page<GoalDetalheDTO> findAllGoals(Pageable pageable);
+	@Query(value="select new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.user.id")
+	Page<GoalDetalheDTO> findAllGoals(@Param("userId") Pageable pageable);
 
 	@Query(value="select * from goal g where g.id = :goalId", nativeQuery = true)
 	Optional<Goal> findGoalById(@Param("goalId") Long goalId);
@@ -39,8 +41,8 @@ public interface GoalRepository extends JpaRepository<Goal,Long>
 	@Query(value="DELETE FROM goal g WHERE g.id = :goalId",nativeQuery = true)
 	void deleteGoal(@Param("goalId") Long goalId);
 
-	@Query(value = "SELECT new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.userId AND u.id = :userId")
-	Page<GoalDetalheDTO> findGoalByUserId(@Param("userId") Long userId, Pageable pageable);
+	@Query(value = "SELECT new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.user.id AND u.id = :userId")
+	Page<GoalDetalheDTO> findGoalByUserId(Long userId, Pageable pageable);
 
 	@Modifying
 	@Transactional

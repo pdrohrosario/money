@@ -9,23 +9,20 @@ public class UserForm
 	private String email;
 
 	@NotNull
-	private String fullName;
+	private String name;
 
+	@NotNull
+	private String userName;
 	@NotNull
 	private String password;
 
 	public User converter(){
-		return new User(fullName, email, password);
+		return new User(email, name, userName, password);
 	}
 
 	public void setEmail(String email)
 	{
 		this.email = email;
-	}
-
-	public void setFullName(String fullName)
-	{
-		this.fullName = fullName;
 	}
 
 	public void setPassword(String password)
@@ -38,9 +35,24 @@ public class UserForm
 		return email;
 	}
 
-	public String getFullName()
+	public String getName()
 	{
-		return fullName;
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getUserName()
+	{
+		return userName;
+	}
+
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
 	}
 
 	public String getPassword()

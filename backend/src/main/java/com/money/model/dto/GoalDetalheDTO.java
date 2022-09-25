@@ -1,13 +1,12 @@
 package com.money.model.dto;
 
-import com.money.model.Category;
 import java.time.LocalDateTime;
 
 public class GoalDetalheDTO
 {
 	private Long id;
 
-	private Category typeSpent;
+	private String typeSpent;
 
 	private String userName;
 	private Double amount;
@@ -18,7 +17,7 @@ public class GoalDetalheDTO
 
 	private String description;
 
-	public GoalDetalheDTO(Long id, Category typeSpent, String userName, Double amount,
+	public GoalDetalheDTO(Long id, String typeSpent, String userName, Double amount,
 		LocalDateTime startDate, LocalDateTime endDate, String description)
 	{
 		this.id = id;
@@ -40,12 +39,12 @@ public class GoalDetalheDTO
 		this.id = id;
 	}
 
-	public Category getTypeSpent()
+	public String getTypeSpent()
 	{
 		return typeSpent;
 	}
 
-	public void setTypeSpent(Category typeSpent)
+	public void setTypeSpent(String typeSpent)
 	{
 		this.typeSpent = typeSpent;
 	}

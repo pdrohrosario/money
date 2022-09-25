@@ -16,11 +16,22 @@ public class Goal
 
 	private String description;
 
-	private Long userId;
-
 	private LocalDateTime startDate = LocalDateTime.now();
 
 	private LocalDateTime endDate;
+
+	@ManyToOne
+	private User user;
+
+	public User getUser()
+	{
+		return user;
+	}
+
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
 
 	public Long getId()
 	{
@@ -50,16 +61,6 @@ public class Goal
 	public void setAmount(Double amount)
 	{
 		this.amount = amount;
-	}
-
-	public Long getUserId()
-	{
-		return userId;
-	}
-
-	public void setUserId(Long userId)
-	{
-		this.userId = userId;
 	}
 
 	public String getDescription()

@@ -27,33 +27,33 @@ public class GoalService
 	@Autowired
 	private GoalRepository goalRepository;
 
-	public GoalDTO create(GoalForm form, Long userId)
-	{
-		Goal goal = new Goal();
-		goal.setDescription(form.getDescription());
-		goal.setAmount(form.getAmount());
-		goal.setEndDate(form.getEndDate());
-		goal.setUserId(userId);
-
-		if (form.getTypeSpent() != null)
-		{
-			goal.setTypeSpentId(this.typeSpentService.findTypeSpentByName(form.getTypeSpent()));
-		}
-		else
-		{
-			return null;
-		}
-
-		this.goalRepository.saveGoal(goal.getAmount(), goal.getDescription(), goal.getEndDate(),
-			goal.getStartDate(), goal.getUserId(), goal.getTypeSpentId());
-
-		GoalDTO dto = new GoalDTO();
-		dto.setId(goal.getId());
-		dto.setAmount(goal.getAmount());
-		dto.setTypeSpent(form.getTypeSpent());
-
-		return dto;
-	}
+//	public GoalDTO create(GoalForm form, Long userId)
+//	{
+//		Goal goal = new Goal();
+//		goal.setDescription(form.getDescription());
+//		goal.setAmount(form.getAmount());
+//		goal.setEndDate(form.getEndDate());
+//		goal.getUser().
+//
+//		if (form.getTypeSpent() != null)
+//		{
+//			goal.setTypeSpentId(this.typeSpentService.findTypeSpentByName(form.getTypeSpent()));
+//		}
+//		else
+//		{
+//			return null;
+//		}
+//
+//		this.goalRepository.saveGoal(goal.getAmount(), goal.getDescription(), goal.getEndDate(),
+//			goal.getStartDate(), goal.getUserId(), goal.getTypeSpentId());
+//
+//		GoalDTO dto = new GoalDTO();
+//		dto.setId(goal.getId());
+//		dto.setAmount(goal.getAmount());
+//		dto.setTypeSpent(form.getTypeSpent());
+//
+//		return dto;
+//	}
 
 	public Page<GoalDetalheDTO> findAllGoals(Pageable pageable)
 	{
