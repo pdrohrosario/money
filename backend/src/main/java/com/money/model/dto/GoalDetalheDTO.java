@@ -34,19 +34,9 @@ public class GoalDetalheDTO
 		return id;
 	}
 
-	public void setId(Long id)
-	{
-		this.id = id;
-	}
-
 	public String getTypeSpent()
 	{
 		return typeSpent;
-	}
-
-	public void setTypeSpent(String typeSpent)
-	{
-		this.typeSpent = typeSpent;
 	}
 
 	public String getUserName()
@@ -54,19 +44,9 @@ public class GoalDetalheDTO
 		return userName;
 	}
 
-	public void setUserName(String userName)
-	{
-		this.userName = userName;
-	}
-
 	public Double getAmount()
 	{
 		return amount;
-	}
-
-	public void setAmount(Double amount)
-	{
-		this.amount = amount;
 	}
 
 	public LocalDateTime getStartDate()
@@ -74,28 +54,13 @@ public class GoalDetalheDTO
 		return startDate;
 	}
 
-	public void setStartDate(LocalDateTime startDate)
-	{
-		this.startDate = startDate;
-	}
-
 	public LocalDateTime getEndDate()
 	{
 		return endDate;
 	}
 
-	public void setEndDate(LocalDateTime endDate)
-	{
-		this.endDate = endDate;
-	}
-
 	public String getDescription()
 	{
 		return description;
-	}
-
-	public void setDescription(String description)
-	{
-		this.description = description;
 	}
 }

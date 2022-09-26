@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Repository
 public interface GoalRepository extends JpaRepository<Goal,Long>
 {
-	@Query(value="select new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.user.id")
-	Page<GoalDetalheDTO> findAllGoals(@Param("userId") Pageable pageable);
+	@Query(value="select new com.money.model.dto.GoalDTO(g.id,g.amount, t.category) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.user.id and u.userName = :userName")
+	List<GoalDTO> findGoalsByUserName(@Param("userName") String userName);
+
+	@Query(value="select new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.user.id and g.id = :goalId")
+	GoalDetalheDTO findGoalDetalheById(@Param("goalId") Long goalId);
 
 	@Query(value="select * from goal g where g.id = :goalId", nativeQuery = true)
 	Optional<Goal> findGoalById(@Param("goalId") Long goalId);
@@ -41,8 +44,6 @@ public interface GoalRepository extends JpaRepository<Goal,Long>
 	@Query(value="DELETE FROM goal g WHERE g.id = :goalId",nativeQuery = true)
 	void deleteGoal(@Param("goalId") Long goalId);
 
-	@Query(value = "SELECT new com.money.model.dto.GoalDetalheDTO(g.id, t.category ,u.name, g.amount, g.startDate, g.endDate, g.description) from Goal g inner join TypeSpent t on t.id = g.typeSpentId inner join User u on u.id = g.user.id AND u.id = :userId")
-	Page<GoalDetalheDTO> findGoalByUserId(Long userId, Pageable pageable);
 
 	@Modifying
 	@Transactional

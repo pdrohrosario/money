@@ -1,9 +1,9 @@
-package com.money.controller.form;
+package com.money.model.dto;
 
 import com.money.model.User;
 import javax.validation.constraints.NotNull;
 
-public class UserForm
+public class UserDetalheDTO
 {
 	@NotNull
 	private String email;
@@ -19,42 +19,18 @@ public class UserForm
 	public User converter(){
 		return new User(email, name, userName, password);
 	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
-
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-
 	public String getEmail()
 	{
 		return email;
 	}
-
 	public String getName()
 	{
 		return name;
 	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
 	public String getUserName()
 	{
 		return userName;
 	}
-
-	public void setUserName(String userName)
-	{
-		this.userName = userName;
-	}
-
 	public String getPassword()
 	{
 		return password;

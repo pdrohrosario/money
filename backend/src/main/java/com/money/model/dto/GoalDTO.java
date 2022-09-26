@@ -6,8 +6,6 @@ public class GoalDTO
 
 	private String typeSpent;
 
-	private String email;
-
 	private Double amount;
 
 	public Long getId()
@@ -15,29 +13,21 @@ public class GoalDTO
 		return id;
 	}
 
-
-	public Double getAmount()
-	{
-		return amount;
-	}
-
-	public void setId(Long id)
+	public GoalDTO(Long id, Double amount, String typeSpent)
 	{
 		this.id = id;
+		this.amount = amount;
+		this.typeSpent = typeSpent;
+
 	}
 
-	public String getTypeSpent(String name)
+	public String getTypeSpent()
 	{
 		return typeSpent;
 	}
 
-	public void setTypeSpent(String typeSpent)
+	public Double getAmount()
 	{
-		this.typeSpent = typeSpent;
-	}
-
-	public void setAmount(Double amount)
-	{
-		this.amount = amount;
+		return amount;
 	}
 }

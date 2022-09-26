@@ -1,13 +1,11 @@
 package com.money.service;
 
-import com.money.controller.form.TransferForm;
-import com.money.model.PaymentWay;
-import com.money.model.TypeSpent;
-import com.money.model.User;
+import com.money.model.*;
 import com.money.model.dto.TransferDTO;
 import com.money.model.dto.TransferDetalheDTO;
 import com.money.repository.TransferRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +24,23 @@ public class TransferService
 	@Autowired
 	private TypeSpentService typeSpentService;
 
-	public TransferDetalheDTO findTransferById(Long transferId)
+	public TransferDetalheDTO search(Long transferId)
 	{
-		return this.transferRepository.findTransferById(transferId);
+		return this.transferRepository.findTransferDetalheById(transferId);
 	}
 
-	public List<TransferDTO> findAllTransferByUserId(Long userId)
+	public List<TransferDTO> findAllTransferByUserName(String userName)
 	{
-		return this.transferRepository.findTransferByUserId(userId);
+		return this.transferRepository.findTransfersByUserName(userName);
 	}
 
-	public TransferDTO create(TransferForm form)
+	public Transfer findTransyId(Long goalId)
+	{
+		return this.transferRepository.findTransferById(goalId).get();
+	}
+
+
+	public TransferDTO create( TransferDetalheDTO form)
 	{
 		User user = this.userService.findUserByUserName(form.getUserName());
 
@@ -61,26 +65,68 @@ public class TransferService
 		this.transferRepository.saveTransfer(form.getAmountSpent(), form.getDescription(),
 			form.getTransferDate(), payment.getId(), typeSpent.getId(), user.getId());
 
-		return this.converter(form);
+		return null;
 	}
 
-	private TransferDTO converter(TransferForm form)
+	public boolean delete(Long transferId)
 	{
-		TransferDTO dto = new TransferDTO();
-		dto.setAmountSpent(form.getAmountSpent());
-		dto.setTransferDate(form.getTransferDate());
-		dto.setTypeSpent(form.getTypeSpent());
-
-		return dto;
+		Optional<Transfer> transfer = this.transferRepository.findById(transferId);
+		if (transfer.isPresent()){
+			this.transferRepository.delete(transferId);
+			return true;
+		}
+		return false;
 	}
 
-	public boolean delete(Long id)
+	public TransferDTO update(TransferDetalheDTO dto)
 	{
-		return true;
-	}
+		Optional<Transfer> transfer = this.transferRepository.findById(dto.getId());
 
-//	public TransferDTO update(TransferForm form, Long id)
-//	{
-//		return null;
-//	}
+		if(!transfer.isPresent()){
+			return null;
+		}
+
+		if(dto.getAmountSpent() != null)
+		{
+			transfer.get().setAmountSpent(dto.getAmountSpent());
+		}
+
+		if(dto.getDescription() != null && !dto.getDescription().isEmpty()){
+			transfer.get().setDescription(dto.getDescription());
+		}
+
+		if(dto.getTransferDate() != null)
+		{
+			transfer.get().setTransferDate(dto.getTransferDate());
+		}
+
+		if(dto.getPaymentWay() != null)
+		{
+			PaymentWay payment = this.paymentService.findPaymentWayByName(dto.getPaymentWay());
+			if (payment == null)
+			{
+				return null;
+			}
+			transfer.get().setPaymentWay(payment);
+		}
+
+
+		if(dto.getTypeSpent() != null)
+		{
+			TypeSpent typeSpent = this.typeSpentService.findTypeSpentByName(dto.getTypeSpent());
+
+			if (typeSpent == null)
+			{
+				return null;
+			}
+			transfer.get().setTypeSpent(typeSpent);
+		}
+
+		this.transferRepository.update(transfer.get().getId(), transfer.get().getDescription(),
+			transfer.get().getTransferDate(), transfer.get().getPaymentWay().getId(),
+			transfer.get().getTypeSpent().getId());
+
+
+		return null;
+	}
 }

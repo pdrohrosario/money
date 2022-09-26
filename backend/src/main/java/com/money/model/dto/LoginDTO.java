@@ -1,8 +1,8 @@
-package com.money.controller.form;
+package com.money.model.dto;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class LoginForm
+public class LoginDTO
 {
 	private String userName;
 	private String password;

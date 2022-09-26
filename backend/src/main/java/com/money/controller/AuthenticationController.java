@@ -1,7 +1,7 @@
 package com.money.controller;
 
 import com.money.config.security.TokenService;
-import com.money.controller.form.LoginForm;
+import com.money.model.dto.LoginDTO;
 import com.money.model.dto.TokenDto;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AuthenticationController
 	private TokenService tokenService;
 
 	@PostMapping
-	public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginForm form){
+	public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginDTO form){
 		UsernamePasswordAuthenticationToken dataLogin = form.converter();
 
 		try

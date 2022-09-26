@@ -16,6 +16,8 @@ public class TransferDetalheDTO
 
 	private String typeSpent;
 
+	private String userName;
+
 	public TransferDetalheDTO(Long id, Double amountSpent, String description,
 		LocalDateTime transferDate, String paymentWay, String typeSpent)
 	{
@@ -37,19 +39,9 @@ public class TransferDetalheDTO
 		return id;
 	}
 
-	public void setId(Long id)
-	{
-		this.id = id;
-	}
-
 	public Double getAmountSpent()
 	{
 		return amountSpent;
-	}
-
-	public void setAmountSpent(Double amountSpent)
-	{
-		this.amountSpent = amountSpent;
 	}
 
 	public String getDescription()
@@ -57,19 +49,9 @@ public class TransferDetalheDTO
 		return description;
 	}
 
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-
 	public LocalDateTime getTransferDate()
 	{
 		return transferDate;
-	}
-
-	public void setTransferDate(LocalDateTime transferDate)
-	{
-		this.transferDate = transferDate;
 	}
 
 	public String getPaymentWay()
@@ -77,18 +59,13 @@ public class TransferDetalheDTO
 		return paymentWay;
 	}
 
-	public void setPaymentWay(String paymentWay)
-	{
-		this.paymentWay = paymentWay;
-	}
-
 	public String getTypeSpent()
 	{
 		return typeSpent;
 	}
 
-	public void setTypeSpent(String typeSpent)
+	public String getUserName()
 	{
-		this.typeSpent = typeSpent;
+		return userName;
 	}
 }

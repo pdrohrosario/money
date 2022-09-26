@@ -1,21 +1,14 @@
 package com.money.service;
 
-import com.money.controller.form.GoalForm;
 import com.money.model.Goal;
 import com.money.model.dto.GoalDTO;
 import com.money.model.dto.GoalDetalheDTO;
 import com.money.repository.GoalRepository;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -55,14 +48,22 @@ public class GoalService
 //		return dto;
 //	}
 
-	public Page<GoalDetalheDTO> findAllGoals(Pageable pageable)
+	public List<GoalDTO> listGoalsByUserName(String userName)
 	{
-		return this.goalRepository.findAllGoals(pageable);
+		return this.findGoalsByUserName(userName);
 	}
 
-	public Page<GoalDetalheDTO> findGoalsByUserId(Long userId, Pageable pageable)
+	public GoalDetalheDTO search(Long id){
+		return this.goalRepository.findGoalDetalheById(id);
+	}
+
+	public Goal findGoalById(Long goalId)
 	{
-		return this.goalRepository.findGoalByUserId(userId,pageable);
+		return this.goalRepository.findGoalById(goalId).get();
+	}
+
+	public List<GoalDTO> findGoalsByUserName(String userName){
+		return this.goalRepository.findGoalsByUserName(userName);
 	}
 
 	public boolean delete(Long id)
@@ -77,39 +78,31 @@ public class GoalService
 		return false;
 	}
 
-	public boolean findGoalById(Long id)
+	public GoalDTO update(GoalDetalheDTO dto, Long goalId)
 	{
-		return this.goalRepository.findGoalById(id).isPresent();
-	}
-
-	public GoalDTO update(GoalForm form, Long goalId)
-	{
-		Optional<Goal> goal = this.goalRepository.findGoalById(goalId);
-		if (goal.isPresent())
+		Goal goal = this.findGoalById(goalId);
+		if (goal != null)
 		{
-			if (form.getEndDate() != null)
+			if (dto.getEndDate() != null)
 			{
-				goal.get().setEndDate(form.getEndDate());
+				goal.setEndDate(dto.getEndDate());
 			}
-			if (form.getAmount() != null)
+			if (dto.getAmount() != null)
 			{
-				goal.get().setAmount(form.getAmount());
+				goal.setAmount(dto.getAmount());
 			}
-			if (form.getDescription() != null)
+			if (dto.getDescription() != null)
 			{
-				goal.get().setDescription(form.getDescription());
+				goal.setDescription(dto.getDescription());
 			}
+
+			this.goalRepository.update(goal.getAmount(),
+				goal.getDescription(), goal.getEndDate(), goalId);
+
+			return new GoalDTO(goal.getId(), goal.getAmount(), dto.getTypeSpent());
 		}
 
-		this.goalRepository.update(goal.get().getAmount(),
-			goal.get().getDescription(), goal.get().getEndDate(), goalId);
-
-		GoalDTO dto = new GoalDTO();
-		dto.setId(goalId);
-		dto.setAmount(goal.get().getAmount());
-		dto.setTypeSpent(form.getTypeSpent());
-
-		return dto;
+		return null;
 	}
 
 }

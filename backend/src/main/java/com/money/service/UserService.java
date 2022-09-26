@@ -1,12 +1,10 @@
 package com.money.service;
 
-import com.money.controller.form.TransferForm;
-import com.money.controller.form.UserForm;
+import com.money.model.dto.UserDetalheDTO;
 import com.money.model.User;
 import com.money.model.dto.UserDTO;
 import com.money.repository.UserRepository;
 import java.util.Optional;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,7 @@ public class UserService
 	@Autowired
 	private UserRepository userRepository;
 
-	public UserDTO create(UserForm form) throws Exception
+	public UserDTO create(UserDetalheDTO form) throws Exception
 	{
 		if (this.isUserExists(form.getUserName()))
 		{
@@ -30,77 +28,94 @@ public class UserService
 		newUser.setPassword(passwordEncode);
 		try
 		{
-			this.userRepository.saveUser(newUser.getUsername(), newUser.getEmail(), newUser.getName(), newUser.getPassword());
+			this.userRepository.saveUser(newUser.getUsername(), newUser.getEmail(), newUser.getName(),
+				newUser.getPassword());
 		}
-		catch (Exception error){
-			throw new  Exception("error by" + error.getMessage());
+		catch (Exception error)
+		{
+			throw new Exception("error by" + error.getMessage());
 		}
-		return this.converter(newUser);
+		return UserDTO.create().withUserName(form.getUserName()).withEmail(form.getEmail());
 	}
 
-	public Boolean isUserExists(String userName) {
+	public Boolean isUserExists(String userName)
+	{
 		return this.userRepository.findUserByUserName(userName).isPresent();
 	}
 
-	public UserDTO findUserById(Long id){
-		Optional<User> user = this.userRepository.findUserById(id);
-		return user.map(this::converter).orElse(null);
+	public UserDTO search(Long id)
+	{
+		User user = this.findUserById(id);
+		return UserDTO.create().withUserName(user.getUsername()).withEmail(user.getEmail())
+			.withId(user.getId());
 	}
 
-	public User findUserByUserName(String userName){
+	public User findUserById(Long id)
+	{
+		Optional<User> user = this.userRepository.findUserById(id);
+		return user.get();
+	}
+
+	public User findUserByUserName(String userName)
+	{
 		Optional<User> user = this.userRepository.findUserByUserName(userName);
 		return user.get();
 	}
 
-	public UserDTO update(UserForm form, Long userId) throws Exception
+	public UserDTO update(UserDetalheDTO form, Long userId) throws Exception
 	{
 
-		Optional<User> user = this.userRepository.findUserById(userId);
-		if (user.isPresent())
+		User user = this.findUserById(userId);
+		if (user != null)
 		{
-			if(form.getName() != null)
-				user.get().setName(form.getName());
+			if (form.getName() != null)
+			{
+				user.setName(form.getName());
+			}
 
-			if (this.isUserExists(form.getEmail()) && !user.get().getEmail().equals(form.getEmail()))
+			if (this.isUserExists(form.getEmail()) && !user.getEmail().equals(form.getEmail()))
 			{
 				return null;
 			}
-			if(form.getEmail() != null)
-				user.get().setEmail(form.getEmail());
+			if (form.getEmail() != null)
+			{
+				user.setEmail(form.getEmail());
+			}
 
-			if(form.getPassword() != null)
-				user.get().setPassword(generatePasswordEncode(form.getPassword()));
+			if (form.getPassword() != null)
+			{
+				user.setPassword(generatePasswordEncode(form.getPassword()));
+			}
 
-			this.userRepository.update(user.get().getName(), user.get().getEmail(), user.get().getPassword(),userId);
+			this.userRepository.update(user.getName(), user.getEmail(),
+				user.getPassword(), userId);
 
-			return this.converter(user.get());
+			return  UserDTO.create().withUserName(user.getUsername()).withEmail(user.getEmail())
+				.withId(user.getId());
 		}
 
 		return null;
 	}
 
-	public boolean delete(Long userId){
+	public boolean delete(Long userId)
+	{
 		Optional<User> user = this.userRepository.findUserById(userId);
-		if(user.isPresent()){
+		if (user.isPresent())
+		{
 			this.userRepository.delete(user.get().getId());
 			return true;
 		}
 		return false;
 	}
 
-	private UserDTO converter(User user){
-		UserDTO dto = new UserDTO();
-		dto.setUserName(user.getUsername());
-		dto.setId(user.getId());
-		return dto;
-	}
-
-	private String generatePasswordEncode(String password){
+	private String generatePasswordEncode(String password)
+	{
 		BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder();
 		return cryptPasswordEncoder.encode(password);
 	}
 
-	private Integer countIdUser(){
-		return this.userRepository.countIdUser()+1;
+	private Integer countIdUser()
+	{
+		return this.userRepository.countIdUser() + 1;
 	}
 }

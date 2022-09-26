@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>
 {
-	@Query(value = "SELECT * FROM user u where u.user_name=?1 ", nativeQuery = true)
-	Optional<User> findUserByUserName(String userName);
+	@Query(value = "SELECT * FROM user u where u.user_name= :userName", nativeQuery = true)
+	Optional<User> findUserByUserName(@Param("userName") String userName);
 
 	@Query(value = "SELECT * FROM user u where u.id=?1 ", nativeQuery = true)
 	Optional<User> findUserById(Long userId);
@@ -33,6 +33,6 @@ public interface UserRepository extends JpaRepository<User, Long>
 
 	@Modifying
 	@Transactional
-	@Query(value = "INSERT INTO user (email, name, user_name, password )VALUES (:email, :name, :userName, :password);",nativeQuery = true)
+	@Query(value = "INSERT INTO user (email, name, password , user_name )VALUES (:email, :name, :password, :userName);",nativeQuery = true)
 	void saveUser(String userName, String email,String name,String password);
 }
