@@ -20,9 +20,6 @@ public class TransferController
 	@Autowired
 	private TransferService transferService;
 
-	@Autowired
-	private UserService userService;
-
 	@GetMapping("/{userName}/transfers")
 	public List<TransferDTO> list(@PathVariable("userName") String userName){
 

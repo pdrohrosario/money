@@ -1,11 +1,10 @@
 package com.money.model.dto;
 
-public class GoalDTO
+public class KeepMoneyDTO
 {
 	private Long id;
 
 	private String title;
-	private String typeSpent;
 
 	private Double amount;
 
@@ -14,22 +13,16 @@ public class GoalDTO
 		return id;
 	}
 
-	public GoalDTO(Long id, String title, String typeSpent, Double amount)
+	public KeepMoneyDTO(Long id, String title, Double amount)
 	{
 		this.id = id;
 		this.title = title;
-		this.typeSpent = typeSpent;
 		this.amount = amount;
 	}
 
 	public String getTitle()
 	{
 		return title;
-	}
-
-	public String getTypeSpent()
-	{
-		return typeSpent;
 	}
 
 	public Double getAmount()

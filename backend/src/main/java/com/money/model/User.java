@@ -25,6 +25,9 @@ public class User implements UserDetails
 	@OneToMany
 	List<Goal> goals;
 
+	@OneToMany
+	List<KeepMoney> keepMonies;
+
 	public User(){}
 
 	public User(String email, String name, String userName, String password)

@@ -16,6 +16,9 @@ public class TransferService
 	private TransferRepository transferRepository;
 
 	@Autowired
+	private KeepMoneyService keepMoneyService;
+
+	@Autowired
 	private PaymentService paymentService;
 
 	@Autowired
@@ -60,6 +63,11 @@ public class TransferService
 		if (typeSpent == null)
 		{
 			return null;
+		}
+
+		if("POUPANÇA".equals(typeSpent.getCategory())){
+			KeepMoney keep = this.keepMoneyService.findByUsernameAndDate(form.getUserName(), form.getTransferDate());
+			this.transferRepository.saveTransferKeepMoney(form.getId(), keep.getId());
 		}
 
 		this.transferRepository.saveTransfer(form.getAmountSpent(), form.getDescription(),

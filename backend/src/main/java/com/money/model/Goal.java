@@ -1,6 +1,5 @@
 package com.money.model;
 
-import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
@@ -10,18 +9,18 @@ public class Goal
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Long typeSpentId;
+	@ManyToOne
+	private TypeSpent typeSpent;
 
-	private Double amount;
-
-	private String description;
-
-	private LocalDateTime startDate = LocalDateTime.now();
-
-	private LocalDateTime endDate;
+	@OneToOne
+	private PlanSpent planSpent;
 
 	@ManyToOne
 	private User user;
+
+	public Goal(){
+		super();
+	}
 
 	public User getUser()
 	{
@@ -43,53 +42,23 @@ public class Goal
 		this.id = id;
 	}
 
-	public Long getTypeSpentId()
+	public void setTypeSpent(TypeSpent typeSpent)
 	{
-		return typeSpentId;
+		this.typeSpent = typeSpent;
 	}
 
-	public void setTypeSpentId(Long typeSpentId)
+	public void setPlanSpent(PlanSpent planSpent)
 	{
-		this.typeSpentId = typeSpentId;
+		this.planSpent = planSpent;
 	}
 
-	public Double getAmount()
+	public TypeSpent getTypeSpent()
 	{
-		return amount;
+		return typeSpent;
 	}
 
-	public void setAmount(Double amount)
+	public PlanSpent getPlanSpent()
 	{
-		this.amount = amount;
-	}
-
-	public String getDescription()
-	{
-		return description;
-	}
-
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-
-	public LocalDateTime getStartDate()
-	{
-		return startDate;
-	}
-
-	public void setStartDate(LocalDateTime startDate)
-	{
-		this.startDate = startDate;
-	}
-
-	public LocalDateTime getEndDate()
-	{
-		return endDate;
-	}
-
-	public void setEndDate(LocalDateTime endDate)
-	{
-		this.endDate = endDate;
+		return planSpent;
 	}
 }

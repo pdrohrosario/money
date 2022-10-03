@@ -1,9 +1,12 @@
 package com.money.service;
 
 import com.money.model.Goal;
-import com.money.model.dto.GoalDTO;
-import com.money.model.dto.GoalDetalheDTO;
+import com.money.model.PlanSpent;
+import com.money.model.TypeSpent;
+import com.money.model.User;
+import com.money.model.dto.*;
 import com.money.repository.GoalRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,39 +21,41 @@ public class GoalService
 	private TypeSpentService typeSpentService;
 
 	@Autowired
+	private PlanSpentService planSpentService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private GoalRepository goalRepository;
 
-//	public GoalDTO create(GoalForm form, Long userId)
-//	{
-//		Goal goal = new Goal();
-//		goal.setDescription(form.getDescription());
-//		goal.setAmount(form.getAmount());
-//		goal.setEndDate(form.getEndDate());
-//		goal.getUser().
-//
-//		if (form.getTypeSpent() != null)
-//		{
-//			goal.setTypeSpentId(this.typeSpentService.findTypeSpentByName(form.getTypeSpent()));
-//		}
-//		else
-//		{
-//			return null;
-//		}
-//
-//		this.goalRepository.saveGoal(goal.getAmount(), goal.getDescription(), goal.getEndDate(),
-//			goal.getStartDate(), goal.getUserId(), goal.getTypeSpentId());
-//
-//		GoalDTO dto = new GoalDTO();
-//		dto.setId(goal.getId());
-//		dto.setAmount(goal.getAmount());
-//		dto.setTypeSpent(form.getTypeSpent());
-//
-//		return dto;
-//	}
+	public GoalDTO create(GoalDetalheDTO dto)
+	{
+
+		if(dto.getUserName() != null && dto.getTypeSpent()!=null)
+		{
+			User user = this.userService.findUserByUserName(dto.getUserName());
+
+			TypeSpent typeSpent = this.typeSpentService.findTypeSpentByName(dto.getTypeSpent());
+
+			PlanSpentDTO planDto = this.planSpentService.create(new PlanSpentDetalheDTO(dto.getTitle(), dto.getAmount(), dto.getDescription(), dto.getStartDate(), dto.getEndDate()));
+
+			this.goalRepository.saveGoal(planDto.getId(), user.getId(), typeSpent.getId());
+
+			return new GoalDTO(dto.getId(), dto.getTitle(), dto.getTypeSpent(),dto.getAmount());
+		}
+
+		return null;
+	}
 
 	public List<GoalDTO> listGoalsByUserName(String userName)
 	{
 		return this.findGoalsByUserName(userName);
+	}
+
+	public List<GoalOldenDTO> listOldenGoalsByUserName(String userName)
+	{
+		return this.goalRepository.findOldenGoalsByUserName(userName, LocalDateTime.now());
 	}
 
 	public GoalDetalheDTO search(Long id){
@@ -68,10 +73,12 @@ public class GoalService
 
 	public boolean delete(Long id)
 	{
-		Optional<Goal> goal = this.goalRepository.findGoalById(id);
-		if (goal.isPresent())
+		Goal goal = this.findGoalById(id);
+		if (goal != null)
 		{
 			this.goalRepository.deleteGoal(id);
+			this.planSpentService.delete(goal.getPlanSpent().getId());
+
 			return true;
 		}
 
@@ -83,23 +90,25 @@ public class GoalService
 		Goal goal = this.findGoalById(goalId);
 		if (goal != null)
 		{
-			if (dto.getEndDate() != null)
-			{
-				goal.setEndDate(dto.getEndDate());
-			}
-			if (dto.getAmount() != null)
-			{
-				goal.setAmount(dto.getAmount());
-			}
-			if (dto.getDescription() != null)
-			{
-				goal.setDescription(dto.getDescription());
-			}
+			PlanSpentDTO plan = this.planSpentService.update(new PlanSpentDetalheDTO(dto.getTitle(), dto.getAmount(), dto.getDescription(), dto.getStartDate(), dto.getEndDate()));
 
-			this.goalRepository.update(goal.getAmount(),
-				goal.getDescription(), goal.getEndDate(), goalId);
+			TypeSpent typeSpent = this.typeSpentService.findTypeSpentByName(dto.getTypeSpent());
 
-			return new GoalDTO(goal.getId(), goal.getAmount(), dto.getTypeSpent());
+			this.goalRepository.update(typeSpent.getId(), goalId);
+
+			return new GoalDTO(goal.getId(), plan.getTitle(), dto.getTypeSpent(), plan.getAmount());
+		}
+
+		return null;
+	}
+
+	public GoalStatusDTO verificateGoalStatus(Long id){
+
+		Goal goal = this.findGoalById(id);
+
+		if(goal != null){
+
+			return this.goalRepository.verifyGoalStatus(goal.getId(), goal.getUser().getId());
 		}
 
 		return null;

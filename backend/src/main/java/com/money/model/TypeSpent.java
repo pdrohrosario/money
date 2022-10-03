@@ -12,6 +12,9 @@ public class TypeSpent
 	private String category;
 
 	@OneToMany
+	List<Transfer> transfers;
+
+	@OneToMany
 	private List<Transfer> transfer;
 
 	public Long getId()
