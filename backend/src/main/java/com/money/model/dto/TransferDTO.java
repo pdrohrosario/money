@@ -2,22 +2,19 @@ package com.money.model.dto;
 
 import java.time.LocalDateTime;
 
-import com.money.model.Transfer;
-import org.springframework.data.domain.Page;
-
 public class TransferDTO
 {
 	private Long id;
-	private Double amountSpent;
-	private LocalDateTime transferDate;
-	private String typeSpent;
+	private Double quantiaGasta;
+	private LocalDateTime data;
+	private String tipoGasto;
 
-	public TransferDTO(Long id, Double amountSpent, LocalDateTime transferDate, String typeSpent)
+	public TransferDTO(Long id, Double quantiaGasta, LocalDateTime data, String tipoGasto)
 	{
 		this.id = id;
-		this.amountSpent = amountSpent;
-		this.transferDate = transferDate;
-		this.typeSpent = typeSpent;
+		this.quantiaGasta = quantiaGasta;
+		this.data = data;
+		this.tipoGasto = tipoGasto;
 	}
 
 	public TransferDTO()
@@ -29,18 +26,18 @@ public class TransferDTO
 		return id;
 	}
 
-	public Double getAmountSpent()
+	public Double getQuantiaGasta()
 	{
-		return amountSpent;
+		return quantiaGasta;
 	}
 
-	public LocalDateTime getTransferDate()
+	public LocalDateTime getData()
 	{
-		return transferDate;
+		return data;
 	}
 
-	public String getTypeSpent()
+	public String getTipoGasto()
 	{
-		return typeSpent;
+		return tipoGasto;
 	}
 }

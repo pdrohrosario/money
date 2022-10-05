@@ -20,13 +20,13 @@ public class User implements UserDetails
 	private String password;
 
 	@OneToMany
-	List<Transfer> transfers;
+	List<Transferencia> transferencias;
 
 	@OneToMany
-	List<Goal> goals;
+	List<Objetivo> objetivos;
 
 	@OneToMany
-	List<KeepMoney> keepMonies;
+	List<Poupanca> keepMonies;
 
 	public User(){}
 

@@ -2,9 +2,8 @@ package com.money.config.security;
 
 
 import com.money.model.User;
-import com.money.repository.UserRepository;
+import com.money.repository.UsuarioRepository;
 import java.io.IOException;
-import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +16,12 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter
 {
 	private TokenService tokenService;
 
-	private UserRepository userRepository;
+	private UsuarioRepository usuarioRepository;
 
-	public AuthenticationByTokenFilter(TokenService tokenService, UserRepository userRepository)
+	public AuthenticationByTokenFilter(TokenService tokenService, UsuarioRepository usuarioRepository)
 	{
 		this.tokenService = tokenService;
-		this.userRepository = userRepository;
+		this.usuarioRepository = usuarioRepository;
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter
 	private void authenticationClient(String token)
 	{
 		Long userId = this.tokenService.getUserId(token);
-		User user = this.userRepository.findUserById(userId).get();
+		User user = this.usuarioRepository.findUserById(userId).get();
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 	}

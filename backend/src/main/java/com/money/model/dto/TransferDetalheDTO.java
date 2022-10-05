@@ -1,35 +1,34 @@
 package com.money.model.dto;
 
-import com.money.model.Transfer;
+import com.money.model.Transferencia;
 import java.time.LocalDateTime;
-import org.springframework.data.domain.Page;
 
 public class TransferDetalheDTO
 {
 	private Long id;
-	private Double amountSpent;
+	private Double quantiaGasta;
 
-	private String description;
-	private LocalDateTime transferDate;
+	private String descricao;
+	private LocalDateTime data;
 
-	private String paymentWay;
+	private String formaPagamento;
 
-	private String typeSpent;
+	private String tipoGasto;
 
 	private String userName;
 
-	public TransferDetalheDTO(Long id, Double amountSpent, String description,
-		LocalDateTime transferDate, String paymentWay, String typeSpent)
+	public TransferDetalheDTO(Long id, Double quantiaGasta, String descricao,
+		LocalDateTime data, String formaPagamento, String tipoGasto)
 	{
 		this.id = id;
-		this.amountSpent = amountSpent;
-		this.description = description;
-		this.transferDate = transferDate;
-		this.paymentWay = paymentWay;
-		this.typeSpent = typeSpent;
+		this.quantiaGasta = quantiaGasta;
+		this.descricao = descricao;
+		this.data = data;
+		this.formaPagamento = formaPagamento;
+		this.tipoGasto = tipoGasto;
 	}
 
-	public TransferDetalheDTO(Transfer transfer)
+	public TransferDetalheDTO(Transferencia transferencia)
 	{
 
 	}
@@ -39,29 +38,29 @@ public class TransferDetalheDTO
 		return id;
 	}
 
-	public Double getAmountSpent()
+	public Double getQuantiaGasta()
 	{
-		return amountSpent;
+		return quantiaGasta;
 	}
 
-	public String getDescription()
+	public String getDescricao()
 	{
-		return description;
+		return descricao;
 	}
 
-	public LocalDateTime getTransferDate()
+	public LocalDateTime getData()
 	{
-		return transferDate;
+		return data;
 	}
 
-	public String getPaymentWay()
+	public String getFormaPagamento()
 	{
-		return paymentWay;
+		return formaPagamento;
 	}
 
-	public String getTypeSpent()
+	public String getTipoGasto()
 	{
-		return typeSpent;
+		return tipoGasto;
 	}
 
 	public String getUserName()

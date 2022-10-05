@@ -1,0 +1,72 @@
+package com.money.controller;
+
+import com.money.model.dto.PoupancaDTO;
+import com.money.model.dto.PoupancaDetalheDTO;
+import com.money.service.PoupancaService;
+import java.net.URI;
+import java.util.List;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RequestMapping("/poupanca")
+@RestController
+public class PoupancaController
+{
+	@Autowired
+	private PoupancaService service;
+
+	@GetMapping("/{userName}")
+	public List<PoupancaDTO> list(@PathVariable("userName") String userName){
+
+		if(userName == null){
+			return null;
+		}
+
+		return this.service.listKeepMoneyByUserName(userName);
+	}
+
+	@GetMapping("/{id}")
+	public PoupancaDetalheDTO search(@PathVariable Long id){
+		return this.service.search(id);
+	}
+
+	@PostMapping("")
+	@Transactional
+	public ResponseEntity<PoupancaDTO> create( @RequestBody @Valid PoupancaDetalheDTO form, UriComponentsBuilder uriBuilder)
+		throws Exception
+	{
+		PoupancaDTO dto = this.service.create(form);
+		URI uri = uriBuilder.path("/keep-money/{id}").buildAndExpand(dto.getId()).toUri();
+		return ResponseEntity.created(uri).body(dto);
+	}
+
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> delete(@PathVariable Long id){
+
+		boolean deleteGoal = this.service.delete(id);
+		if (deleteGoal)
+		{
+			return ResponseEntity.ok().build();
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<PoupancaDTO> update(@RequestBody PoupancaDetalheDTO form) throws Exception
+	{
+		PoupancaDTO dto = this.service.update(form);
+		if(dto == null){
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().build();
+	}
+}

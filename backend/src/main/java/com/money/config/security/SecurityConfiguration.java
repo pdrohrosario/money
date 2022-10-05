@@ -1,6 +1,6 @@
 package com.money.config.security;
 
-import com.money.repository.UserRepository;
+import com.money.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private AuthenticationService authenticationService;
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository usuarioRepository;
 
 	@Autowired
 	private TokenService tokenService;
@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and().cors()
 			.and().csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and().addFilterBefore(new AuthenticationByTokenFilter(tokenService, userRepository),
+			.and().addFilterBefore(new AuthenticationByTokenFilter(tokenService, usuarioRepository),
 				UsernamePasswordAuthenticationFilter.class);
 	}
 
