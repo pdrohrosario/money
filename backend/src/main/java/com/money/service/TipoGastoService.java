@@ -24,13 +24,14 @@ public class TipoGastoService
 
 	public TipoGastoDTO create(TipoGastoDTO form)
 	{
-		if(form.getCategoria() == null){
+		if(form.getNome() == null){
 			return null;
 		}
 
-		this.tipoGastoRepository.saveTypeSpent(form.getCategoria());
+		this.tipoGastoRepository.saveTypeSpent(form.getNome());
+		TipoGasto tp = this.findTypeSpentByName(form.getNome());
 
-		return form;
+		return new TipoGastoDTO(tp.getId(), tp.getNome());
 	}
 
 	public TipoGasto findById(Long id){
@@ -41,7 +42,7 @@ public class TipoGastoService
 	{
 		TipoGasto tp =  this.findById(id);
 
-		return new TipoGastoDTO(tp.getId(), tp.getCategory());
+		return new TipoGastoDTO(tp.getId(), tp.getNome());
 	}
 
 	public boolean delete(Long id)
@@ -61,12 +62,12 @@ public class TipoGastoService
 		TipoGasto to = this.findById(form.getId());
 
 		if(to != null){
-			if(form.getCategoria() == null)
+			if(form.getNome() == null)
 			{
 				return null;
 			}
 
-			this.tipoGastoRepository.update(form.getId(), form.getCategoria());
+			this.tipoGastoRepository.update(form.getId(), form.getNome());
 
 			return form;
 		}

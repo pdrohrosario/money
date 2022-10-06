@@ -8,6 +8,7 @@ public class PlanoGasto
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 	private String titulo;
 
@@ -19,12 +20,8 @@ public class PlanoGasto
 
 	private LocalDateTime dataFim;
 
-	@OneToOne
+	@OneToOne(mappedBy = "planoGasto")
 	private Objetivo objetivo;
-
-	@OneToOne
-	private Poupanca poupanca;
-
 
 	public PlanoGasto(String titulo, Double quantia, String descricao, LocalDateTime dataInicio,
 		LocalDateTime dataFim)
@@ -98,23 +95,4 @@ public class PlanoGasto
 		this.dataFim = dataFim;
 	}
 
-	public Objetivo getObjetivo()
-	{
-		return objetivo;
-	}
-
-	public void setObjetivo(Objetivo objetivo)
-	{
-		this.objetivo = objetivo;
-	}
-
-	public Poupanca getPoupanca()
-	{
-		return poupanca;
-	}
-
-	public void setPoupanca(Poupanca poupanca)
-	{
-		this.poupanca = poupanca;
-	}
 }

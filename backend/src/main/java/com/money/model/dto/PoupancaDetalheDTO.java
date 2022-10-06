@@ -18,20 +18,17 @@ public class PoupancaDetalheDTO
 
 	private String userName;
 
-	public PoupancaDetalheDTO(Long id, String titulo, Double quantia, String descricao,
-		LocalDateTime dataInicio, LocalDateTime dataFim, String userName)
-	{
-		this.id = id;
-		this.titulo = titulo;
-		this.quantia = quantia;
-		this.descricao = descricao;
-		this.dataInicio = dataInicio;
-		this.dataFim = dataFim;
-		this.userName = userName;
-	}
+	private Integer quantidadeMinimaTransferencias;
+
+	private Double quantiaMesEsperada;
+
+	private Integer quantidadeMes;
+
+	public PoupancaDetalheDTO(){}
 
 	public PoupancaDetalheDTO(Long id, String titulo, Double quantia, String descricao,
-		LocalDateTime dataInicio, LocalDateTime dataFim)
+		LocalDateTime dataInicio, LocalDateTime dataFim, Integer quantidadeMinimaTransferencias,
+		Double quantiaMesEsperada, Integer quantidadeMes)
 	{
 		this.id = id;
 		this.titulo = titulo;
@@ -39,6 +36,14 @@ public class PoupancaDetalheDTO
 		this.descricao = descricao;
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
+		this.quantidadeMinimaTransferencias = quantidadeMinimaTransferencias;
+		this.quantiaMesEsperada = quantiaMesEsperada;
+		this.quantidadeMes = quantidadeMes;
+	}
+
+	public Integer getQuantidadeMinimaTransferencias()
+	{
+		return quantidadeMinimaTransferencias;
 	}
 
 	public Long getId()
@@ -74,5 +79,15 @@ public class PoupancaDetalheDTO
 	public String getUserName()
 	{
 		return userName;
+	}
+
+	public Double getQuantiaMesEsperada()
+	{
+		return quantiaMesEsperada;
+	}
+
+	public Integer getQuantidadeMes()
+	{
+		return quantidadeMes;
 	}
 }

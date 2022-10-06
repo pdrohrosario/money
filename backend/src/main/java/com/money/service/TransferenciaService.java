@@ -4,8 +4,10 @@ import com.money.model.*;
 import com.money.model.dto.TransferDTO;
 import com.money.model.dto.TransferDetalheDTO;
 import com.money.repository.TransferenciaRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,9 @@ public class TransferenciaService
 
 	public Transferencia findTransyId(Long goalId)
 	{
-		return this.transferenciaRepository.findTransferById(goalId).get();
+		Optional<Transferencia>  tf = this.transferenciaRepository.findTransferById(goalId);
+
+		return tf.orElse(null);
 	}
 
 
@@ -66,17 +70,13 @@ public class TransferenciaService
 			return null;
 		}
 
-		if ("POUPANÇA".equals(tipoGasto.getCategory()))
-		{
-			Poupanca keep = this.poupancaService.findByUsernameAndDate(form.getUserName(),
-				form.getData());
-			this.transferenciaRepository.saveTransferKeepMoney(form.getId(), keep.getId());
-		}
+		Long transferenciaId = this.gerarSequencial();
 
-		this.transferenciaRepository.saveTransfer(form.getQuantiaGasta(), form.getDescricao(),
+		this.transferenciaRepository.saveTransfer(transferenciaId, form.getQuantiaGasta(), form.getDescricao(),
 			form.getData(), payment.getId(), tipoGasto.getId(), user.getId());
 
-		return null;
+		return new TransferDTO(transferenciaId,form.getQuantiaGasta(), form.getData(),
+			form.getTipoGasto());
 	}
 
 	public boolean delete(Long transferId)
@@ -89,6 +89,11 @@ public class TransferenciaService
 		}
 		return false;
 	}
+
+	public List<Transferencia>listaTransferenciasPoupancaAtual(String userName){
+		return this.transferenciaRepository.listaTransferenciasPoupancaAtiva(userName);
+	}
+
 
 	public TransferDTO update(TransferDetalheDTO dto)
 	{
@@ -140,6 +145,38 @@ public class TransferenciaService
 			transfer.getData(), transfer.getFormaPagamento().getId(), transfer.getTipoGasto().getId());
 
 		return new TransferDTO(transfer.getId(), transfer.getQuantia(), transfer.getData(),
-			transfer.getTipoGasto().getCategory());
+			transfer.getTipoGasto().getNome());
+	}
+
+	public List<TransferDetalheDTO> findTransferenciasVinculasPoupanca(Long poupancaId)
+	{
+		List<TransferDetalheDTO> listaTransfPoupanca = new ArrayList<>();
+
+		if(this.poupancaService.findPoupancaById(poupancaId) == null){
+			return null;
+		}
+
+		List<Long> listaTransferenciaIdVinculados = this.transferenciaRepository.findTransferenciasIdByPoupancaId(poupancaId);
+
+		for(Long transfId : listaTransferenciaIdVinculados){
+			listaTransfPoupanca.add(this.transferenciaRepository.findTransferDetalheById(transfId));
+		}
+
+		return listaTransfPoupanca;
+	}
+
+	public Long gerarSequencial(){
+		boolean idExiste = true;
+		Long sequencial = null;
+		Random random = new Random();
+		while (idExiste){
+			int numero = random.nextInt(100000);
+
+			if(this.findTransyId((long) numero) == null){
+				idExiste = false;
+				sequencial = (long) numero;
+			};
+		}
+		return sequencial;
 	}
 }

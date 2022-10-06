@@ -12,14 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@RequestMapping("/poupanca")
 @RestController
 public class PoupancaController
 {
 	@Autowired
 	private PoupancaService service;
 
-	@GetMapping("/{userName}")
+	@GetMapping("/poupancas/{userName}")
 	public List<PoupancaDTO> list(@PathVariable("userName") String userName){
 
 		if(userName == null){
@@ -29,27 +28,26 @@ public class PoupancaController
 		return this.service.listKeepMoneyByUserName(userName);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/poupanca/{id}")
 	public PoupancaDetalheDTO search(@PathVariable Long id){
 		return this.service.search(id);
 	}
 
-	@PostMapping("")
+	@PostMapping("/poupanca")
 	@Transactional
 	public ResponseEntity<PoupancaDTO> create( @RequestBody @Valid PoupancaDetalheDTO form, UriComponentsBuilder uriBuilder)
 		throws Exception
 	{
 		PoupancaDTO dto = this.service.create(form);
-		URI uri = uriBuilder.path("/keep-money/{id}").buildAndExpand(dto.getId()).toUri();
+		URI uri = uriBuilder.path("/poupanca/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/poupanca/{id}")
 	@Transactional
 	public ResponseEntity<?> delete(@PathVariable Long id){
 
-		boolean deleteGoal = this.service.delete(id);
-		if (deleteGoal)
+		if (this.service.delete(id))
 		{
 			return ResponseEntity.ok().build();
 		}
@@ -59,7 +57,7 @@ public class PoupancaController
 		}
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/poupanca/{id}")
 	@Transactional
 	public ResponseEntity<PoupancaDTO> update(@RequestBody PoupancaDetalheDTO form) throws Exception
 	{

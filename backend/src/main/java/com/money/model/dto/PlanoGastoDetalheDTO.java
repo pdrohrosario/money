@@ -26,6 +26,7 @@ public class PlanoGastoDetalheDTO
 		this.dataFim = dataFim;
 	}
 
+
 	public PlanoGastoDetalheDTO(Long id, String titulo, Double quantia, String descricao, LocalDateTime dataInicio,
 		LocalDateTime dataFim){
 		this(titulo, quantia, descricao, dataInicio, dataFim);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/type-spent/")
+@RequestMapping("/tipo-gasto/")
 public class TipoGastoController
 {
 
@@ -25,13 +25,17 @@ public class TipoGastoController
 		return this.typeSpentService.listTypeSpent();
 	}
 
-	@PostMapping("")
+	@PostMapping()
 	@Transactional
 	public ResponseEntity<TipoGastoDTO> create( @RequestBody @Valid TipoGastoDTO form, UriComponentsBuilder uriBuilder)
 		throws Exception
 	{
 		TipoGastoDTO dto = this.typeSpentService.create(form);
-		URI uri = uriBuilder.path("/type-spent/{id}").buildAndExpand(dto.getId()).toUri();
+		if (dto == null)
+		{
+			return ResponseEntity.notFound().build();
+		}
+		URI uri = uriBuilder.path("/tipo-gasto/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 

@@ -1,6 +1,5 @@
 package com.money.model;
 
-import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
@@ -8,17 +7,15 @@ public class Objetivo
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 
 	@ManyToOne
 	private TipoGasto tipoGasto;
 
-	@OneToOne
+	@OneToOne()
+	@JoinColumn(name = "plano_gasto_id",referencedColumnName = "id")
 	private PlanoGasto planoGasto;
-
-	private Double quantiaMinima;
-
-	private Integer notaPrioridade;
 
 	@ManyToOne
 	private User user;

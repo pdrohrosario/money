@@ -16,10 +16,12 @@ public class Transferencia
 
 	private String descricao;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "forma_pagamento_id")
 	private FormaPagamento formaPagamento;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "tipo_gasto_id")
 	private TipoGasto tipoGasto;
 
 	@ManyToOne

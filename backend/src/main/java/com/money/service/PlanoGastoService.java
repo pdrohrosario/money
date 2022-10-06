@@ -5,8 +5,12 @@ import com.money.model.dto.PlanoGastoDTO;
 import com.money.model.dto.PlanoGastoDetalheDTO;
 import com.money.repository.PlanoDeGastoRepository;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class PlanoGastoService
@@ -23,13 +27,13 @@ public class PlanoGastoService
 	{
 		PlanoGasto tp = this.findById(dto.getId());
 
-		if (tp != null)
+		if (tp == null)
 		{
+			Long sequencial = this.gerarSequencial();
+			this.repository.savePlanSpent(sequencial, dto.getTitulo(), dto.getQuantia(), dto.getDescricao(),
+				dto.getDataInicio(), dto.getDataFim());
 
-			this.repository.savePlanSpent(dto.getTitulo(), dto.getQuantia(), dto.getDescricao(),
-				dto.getDataInicio(), dto.getDataFim(), dto.getId());
-
-			return new PlanoGastoDTO(dto.getId(), dto.getTitulo(), dto.getQuantia());
+			return new PlanoGastoDTO(sequencial, dto.getTitulo(), dto.getQuantia());
 		}
 
 		return null;
@@ -38,7 +42,9 @@ public class PlanoGastoService
 
 	public PlanoGasto findById(Long id)
 	{
-		return this.repository.findById(id).get();
+		Optional<PlanoGasto> pl = this.repository.findById(id);
+
+		return pl.orElse(null);
 	}
 
 	public PlanoGastoDetalheDTO search(Long id)
@@ -84,7 +90,7 @@ public class PlanoGastoService
 				plan.setDescricao(dto.getDescricao());
 			}
 
-			if (dto.getDataInicio() != null)
+			if (dto.getDataInicio() != null && dto.getDataInicio().isAfter(plan.getDataInicio()))
 			{
 				plan.setDataInicio(dto.getDataInicio());
 			}
@@ -101,5 +107,25 @@ public class PlanoGastoService
 		}
 
 		return null;
+	}
+
+	public Long gerarSequencial(){
+		boolean idExiste = true;
+		Long sequencial = null;
+		Random random = new Random();
+		while (idExiste){
+			int numero = random.nextInt(100000);
+
+			if(this.findById((long) numero) == null){
+				idExiste = false;
+				sequencial = (long) numero;
+			};
+		}
+		return sequencial;
+	}
+
+	public List<PlanoGasto> listPlanosDeGasto()
+	{
+		return this.repository.listPlanoDeGasto();
 	}
 }

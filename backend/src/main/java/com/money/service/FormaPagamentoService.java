@@ -24,13 +24,13 @@ public class FormaPagamentoService
 
 	public FormaPagamentoDTO create(FormaPagamentoDTO form)
 	{
-		if(form.getFormaPagamento() == null){
+		if(form.getNome() == null){
 			return null;
 		}
 
-		this.formaPagamentoRepository.savePaymentWay(form.getFormaPagamento());
-
-		return form;
+		this.formaPagamentoRepository.savePaymentWay(form.getNome());
+		FormaPagamento fm =this.formaPagamentoRepository.findPaymentWayByName(form.getNome());
+		return new FormaPagamentoDTO(fm.getId(), fm.getNome());
 	}
 
 	public FormaPagamento findById(Long id){
@@ -41,7 +41,7 @@ public class FormaPagamentoService
 	{
 		FormaPagamento tp = this.findById(id);
 
-		return new FormaPagamentoDTO(tp.getId(), tp.getCategoria());
+		return new FormaPagamentoDTO(tp.getId(), tp.getNome());
 	}
 
 	public boolean delete(Long id)
@@ -61,12 +61,12 @@ public class FormaPagamentoService
 		FormaPagamento to = this.findById(form.getId());
 
 		if(to != null){
-			if(form.getFormaPagamento() == null)
+			if(form.getNome() == null)
 			{
 				return null;
 			}
 
-			this.formaPagamentoRepository.update(form.getId(), form.getFormaPagamento());
+			this.formaPagamentoRepository.update(form.getId(), form.getNome());
 
 			return form;
 		}

@@ -10,6 +10,8 @@ import com.money.model.dto.PlanoGastoDetalheDTO;
 import com.money.repository.PoupancaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,51 +31,68 @@ public class PoupancaService
 
 		User user = this.usuarioService.findUserByUserName(dto.getUserName());
 
-		if (user != null && this.validaPoupancaAtiva(dto.getDataInicio()))
+		if (user != null && this.validaPoupancaAtiva(LocalDateTime.now(), dto.getUserName()))
 		{
+
+			if(dto.getDataFim().isBefore(LocalDateTime.now())){
+				return null;
+			}
+
+			Integer quantidadeMeses = (dto.getDataFim().getMonth().getValue() - LocalDateTime.now().getMonth().getValue());
+
+			Double quantiaMes = dto.getQuantia()/quantidadeMeses;
+
 			PlanoGastoDTO plan = this.planoGastoService.create(
 				new PlanoGastoDetalheDTO(dto.getTitulo(), dto.getQuantia(), dto.getDescricao(),
-					dto.getDataInicio(), dto.getDataFim()));
+					LocalDateTime.now(), dto.getDataFim()));
 
-			this.repository.saveKeepMoney(plan.getId(), user.getId());
+			Long sequencial = this.gerarSequencial();
 
-			return new PoupancaDTO(dto.getId(), dto.getTitulo(), dto.getQuantia());
+			this.repository.saveKeepMoney(sequencial, quantiaMes, quantidadeMeses, dto.getQuantidadeMinimaTransferencias(), plan.getId(), user.getId());
+
+			return new PoupancaDTO(sequencial, dto.getTitulo(), dto.getQuantia());
 		}
 		return null;
 	}
 
-	private boolean validaPoupancaAtiva(LocalDateTime dataInicio)
+	private boolean validaPoupancaAtiva(LocalDateTime dataInicio, String userName)
 	{
 		if (dataInicio == null){
 			return false;
 		}
 
-		List<Poupanca> poupancas = this.repository.buscaPoupancaAtiva(dataInicio);
+		List<Poupanca> poupancas = this.repository.buscaPoupancaAtiva(dataInicio, userName);
 
 		return poupancas.isEmpty();
 	}
 
 	public List<PoupancaDTO> listKeepMoneyByUserName(String userName)
 	{
-		return this.repository.findKeepMoneyByUserName(userName);
+		List<PoupancaDTO> lista = this.repository.findPoupancaByUserName(userName);
+
+		return lista;
 	}
 
 	public PoupancaDetalheDTO search(Long id)
 	{
-		Poupanca poupanca = this.findKeepMoneyById(id);
-		PlanoGasto plan = this.planoGastoService.findById(poupanca.getPlanSpent().getId());
-		return new PoupancaDetalheDTO(poupanca.getId(), plan.getTitulo(), plan.getQuantia(),
-			plan.getDescricao(), plan.getDataInicio(), plan.getDataFim());
+		Poupanca poupanca = this.findPoupancaById(id);
+		if(poupanca != null)
+		{
+			return this.repository.findPoupancaDetalheById(id);
+		}
+		return new PoupancaDetalheDTO();
 	}
 
-	public Poupanca findKeepMoneyById(Long goalId)
+	public Poupanca findPoupancaById(Long goalId)
 	{
-		return this.repository.findKeepMoneyById(goalId).get();
+		Optional<Poupanca> p = this.repository.findPoupancaById(goalId);
+
+		return p.orElse(null);
 	}
 
 	public boolean delete(Long id)
 	{
-		Poupanca poupanca = this.findKeepMoneyById(id);
+		Poupanca poupanca = this.findPoupancaById(id);
 		if (poupanca != null)
 		{
 			this.repository.deleteKeepMoney(id);
@@ -85,12 +104,16 @@ public class PoupancaService
 
 	public PoupancaDTO update(PoupancaDetalheDTO dto)
 	{
-		Poupanca poupanca = this.findKeepMoneyById(dto.getId());
+		Poupanca poupanca = this.findPoupancaById(dto.getId());
 		if (poupanca != null)
 		{
+			if(dto.getDataFim().isBefore(LocalDateTime.now())){
+				return null;
+			}
+
 			PlanoGastoDTO plan = this.planoGastoService.update(
 				new PlanoGastoDetalheDTO(poupanca.getPlanSpent().getId(), dto.getTitulo(),
-					dto.getQuantia(), dto.getDescricao(), dto.getDataInicio(), dto.getDataFim()));
+					dto.getQuantia(), dto.getDescricao(), LocalDateTime.now(), dto.getDataFim()));
 
 			this.repository.update(plan.getId(), poupanca.getUser().getId());
 
@@ -103,5 +126,20 @@ public class PoupancaService
 	public Poupanca findByUsernameAndDate(String username, LocalDateTime transferDate)
 	{
 		return this.repository.findByUsernameAndDate(username, transferDate);
+	}
+
+	public Long gerarSequencial(){
+		boolean idExiste = true;
+		Long sequencial = null;
+		Random random = new Random();
+		while (idExiste){
+			int numero = random.nextInt(100000);
+
+			if(this.findPoupancaById((long) numero) == null){
+				idExiste = false;
+				sequencial = (long) numero;
+			};
+		}
+		return sequencial;
 	}
 }

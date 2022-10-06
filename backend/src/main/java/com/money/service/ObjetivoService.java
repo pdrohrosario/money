@@ -7,6 +7,8 @@ import com.money.model.dto.*;
 import com.money.repository.ObjetivoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +36,15 @@ public class ObjetivoService
 
 			TipoGasto tipoGasto = this.typeSpentService.findTypeSpentByName(dto.getTipoGasto());
 
+			Long objetivoId = this.gerarSequencial();
+
 			PlanoGastoDTO planDto = this.planoGastoService.create(
 				new PlanoGastoDetalheDTO(dto.getTitulo(), dto.getQuantia(), dto.getDescricao(),
 					dto.getDataInicio(), dto.getDataFim()));
 
-			this.objetivoRepository.saveGoal(planDto.getId(), user.getId(), tipoGasto.getId());
+			this.objetivoRepository.saveGoal(objetivoId,planDto.getId(), user.getId(), tipoGasto.getId());
 
-			return new ObjetivoDTO(dto.getId(), dto.getTitulo(), dto.getTipoGasto(), dto.getQuantia());
+			return new ObjetivoDTO(objetivoId, dto.getTitulo(), dto.getTipoGasto(), dto.getQuantia());
 		}
 
 		return null;
@@ -63,7 +67,9 @@ public class ObjetivoService
 
 	public Objetivo findGoalById(Long goalId)
 	{
-		return this.objetivoRepository.findGoalById(goalId).get();
+		Optional<Objetivo> obj = this.objetivoRepository.findGoalById(goalId);
+
+		return obj.orElse(null);
 	}
 
 	public List<ObjetivoDTO> findGoalsByUserName(String userName)
@@ -91,7 +97,7 @@ public class ObjetivoService
 		if (objetivo != null)
 		{
 			PlanoGastoDTO plan = this.planoGastoService.update(
-				new PlanoGastoDetalheDTO(dto.getTitulo(), dto.getQuantia(), dto.getDescricao(),
+				new PlanoGastoDetalheDTO(objetivo.getPlanoGasto().getId(),dto.getTitulo(), dto.getQuantia(), dto.getDescricao(),
 					dto.getDataInicio(), dto.getDataFim()));
 
 			TipoGasto tipoGasto = this.typeSpentService.findTypeSpentByName(dto.getTipoGasto());
@@ -113,11 +119,27 @@ public class ObjetivoService
 		if (objetivo != null)
 		{
 
-			return this.objetivoRepository.verifyGoalStatus(objetivo.getId(),
-				objetivo.getUser().getId());
+			ObjetivoStatusDTO obj = this.objetivoRepository.verifyGoalStatus(objetivo.getId());
+
+			return obj;
 		}
 
 		return null;
+	}
+
+	public Long gerarSequencial(){
+		boolean idExiste = true;
+		Long sequencial = null;
+		Random random = new Random();
+		while (idExiste){
+			int numero = random.nextInt(100000);
+
+			if(this.findGoalById((long) numero) == null){
+				idExiste = false;
+				sequencial = (long) numero;
+			};
+		}
+		return sequencial;
 	}
 
 }

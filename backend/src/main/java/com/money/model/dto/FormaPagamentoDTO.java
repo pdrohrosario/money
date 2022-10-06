@@ -4,14 +4,14 @@ public class FormaPagamentoDTO
 {
 	private Long id;
 
-	private String formaPagamento;
+	private String nome;
 
 	public FormaPagamentoDTO(){}
 
-	public FormaPagamentoDTO(Long id, String formaPagamento)
+	public FormaPagamentoDTO(Long id, String nome)
 	{
 		this.id = id;
-		this.formaPagamento = formaPagamento;
+		this.nome = nome;
 	}
 
 	public Long getId()
@@ -19,8 +19,8 @@ public class FormaPagamentoDTO
 		return id;
 	}
 
-	public String getFormaPagamento()
+	public String getNome()
 	{
-		return this.formaPagamento;
+		return this.nome;
 	}
 }

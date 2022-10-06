@@ -4,14 +4,14 @@ public class TipoGastoDTO
 {
 	private Long id;
 
-	private String categoria;
+	private String nome;
 
 	public TipoGastoDTO(){}
 
-	public TipoGastoDTO(Long id, String typeSpent)
+	public TipoGastoDTO(Long id, String nome)
 	{
 		this.id = id;
-		this.categoria = typeSpent;
+		this.nome = nome;
 	}
 
 	public Long getId()
@@ -19,8 +19,8 @@ public class TipoGastoDTO
 		return id;
 	}
 
-	public String getCategoria()
+	public String getNome()
 	{
-		return categoria;
+		return nome;
 	}
 }

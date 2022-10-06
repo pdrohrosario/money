@@ -1,6 +1,7 @@
 package com.money.repository;
 
 import com.money.model.Transferencia;
+import com.money.model.dto.ObjetivoStatusDTO;
 import com.money.model.dto.TransferDTO;
 import com.money.model.dto.TransferDetalheDTO;
 import java.time.LocalDateTime;
@@ -33,32 +34,34 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
 
 	@Modifying
 	@Transactional
-	@Query(value = "DELETE FROM transfer t WHERE t.id = :transferId", nativeQuery = true)
+	@Query(value = "DELETE FROM transferencia t WHERE t.id = :transferId", nativeQuery = true)
 	void delete(@Param("transferId") Long transferId);
 
 	@Modifying
 	@Transactional
 	@Query(value =
-		"INSERT INTO transfer (quantia, descricao, data, forma_pagamento_id, tipo_gasto_id, user_id )"
-			+ "VALUES (:quantia, :descricao, :data, :formaPagamentoId, :tipoGastoId, :userId);", nativeQuery = true)
-	void saveTransfer(Double quantia, String descricao, LocalDateTime data, Long formaPagamentoId,
+		"INSERT INTO transferencia (id, quantia, descricao, data, forma_pagamento_id, tipo_gasto_id, user_id )"
+			+ "VALUES (:id,:quantia, :descricao, :data, :formaPagamentoId, :tipoGastoId, :userId);", nativeQuery = true)
+	void saveTransfer(Long id, Double quantia, String descricao, LocalDateTime data, Long formaPagamentoId,
 		Long tipoGastoId, Long userId);
+
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE transfer t SET t.descricao = :descricao, t.data = :data, t.forma_pagamento_id = :formaPagamentoId,"
+	@Query(value = "UPDATE transferencia t SET t.descricao = :descricao, t.data = :data, t.forma_pagamento_id = :formaPagamentoId,"
 		+ " t.tipo_gasto_id = :tipoGastoId where t.id = :transferId", nativeQuery = true)
 	void update(@Param("transferId") Long transferId, @Param("descricao") String descricao,
 		@Param("data") LocalDateTime data, @Param("formaPagamentoId") Long formaPagamentoId,
 		@Param("tipoGastoId") Long tipoGastoId);
 
-	@Modifying
-	@Transactional
-	@Query(value = "INSERT INTO transferencia_plano_gasto values (:transferId, :planoGastoId)",nativeQuery = true)
-	void saveTransferKeepMoney(@Param("transferId") Long transferId, @Param("planoGastoId") Long planoGastoId);
+	@Query(value = "SELECT pa.transferencia_id FROM poupanca_transferencia pa where pa.poupanca_id = :poupancaId", nativeQuery = true)
+	List<Long> findTransferenciasIdByPoupancaId(@Param("poupancaId") Long poupancaId);
 
-	@Modifying
-	@Transactional
-	@Query(value = "DELETE FROM transferencia_plano_gasto where transfer_id = :transferId and plano_gasto_id = :planoGastoId)",nativeQuery = true)
-	void deleteTransferKeepMoney(@Param("transferId") Long transferId, @Param("planoGastoId") Long keepId);
+	@Query(value = "SELECT * FROM transferencia t  inner join user u on u.id = t.user_id and u.user_name = 'andreSilva' "
+		+ " inner join plano_gasto pg  "
+		+ " inner join poupanca p on p.plano_gasto_id = pg.id and p.user_id = u.id "
+		+ "inner join tipo_gasto tg on tg.id = t.tipo_gasto_id and tg.nome = 'POUPANÇA'"
+		+ " where t.data between pg.data_inicio and pg.data_fim ",nativeQuery = true)
+	List<Transferencia> listaTransferenciasPoupancaAtiva(String userName);
+
 }

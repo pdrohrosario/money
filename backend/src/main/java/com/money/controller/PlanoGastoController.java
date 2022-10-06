@@ -1,9 +1,12 @@
 package com.money.controller;
 
+import com.money.model.PlanoGasto;
 import com.money.model.dto.PlanoGastoDTO;
 import com.money.model.dto.PlanoGastoDetalheDTO;
+import com.money.model.dto.TipoGastoDTO;
 import com.money.service.PlanoGastoService;
 import java.net.URI;
+import java.util.List;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,12 @@ public class PlanoGastoController
 		return ResponseEntity.notFound().build();
 	}
 
+	@GetMapping()
+	public List<PlanoGasto> list()
+	{
+		return this.planoGastoService.listPlanosDeGasto();
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<PlanoGastoDetalheDTO> search(@PathVariable Long id){
 		PlanoGastoDetalheDTO dto = this.planoGastoService.search(id);
@@ -57,8 +66,7 @@ public class PlanoGastoController
 	@Transactional
 	public ResponseEntity<?> delete(@PathVariable Long id)
 	{
-		boolean deleteUser = this.planoGastoService.delete(id);
-		if (!deleteUser){
+		if (!this.planoGastoService.delete(id)){
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok().build();

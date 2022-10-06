@@ -1,6 +1,7 @@
 package com.money.model;
 
 
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +13,9 @@ public class Poupanca
 
 	@OneToOne
 	private PlanoGasto planoGasto;
+
+	@OneToMany
+	List<Transferencia> transferencias;
 
 	@ManyToOne
 	private User user;

@@ -24,12 +24,15 @@ public class FormaPagamentoController
 		return this.formaPagamentoService.listPaymentWay();
 	}
 
-	@PostMapping("")
+	@PostMapping()
 	@Transactional
 	public ResponseEntity<FormaPagamentoDTO> create( @RequestBody @Valid FormaPagamentoDTO form, UriComponentsBuilder uriBuilder)
 		throws Exception
 	{
 		FormaPagamentoDTO dto = this.formaPagamentoService.create(form);
+		if(dto == null){
+			return ResponseEntity.badRequest().build();
+		}
 		URI uri = uriBuilder.path("/forma-pagamento/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}

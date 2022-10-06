@@ -35,7 +35,7 @@ public class UsuarioService
 		{
 			throw new Exception("error by" + error.getMessage());
 		}
-		return UsuarioDTO.create().withUserName(form.getUserName()).withEmail(form.getEmail());
+		return UsuarioDTO.create().withId(form.getId()).withUserName(form.getUserName()).withEmail(form.getEmail());
 	}
 
 	public Boolean isUserExists(String userName)
@@ -43,9 +43,9 @@ public class UsuarioService
 		return this.usuarioRepository.findUserByUserName(userName).isPresent();
 	}
 
-	public UsuarioDTO search(Long id)
+	public UsuarioDTO search(String userName)
 	{
-		User user = this.findUserById(id);
+		User user = this.findUserByUserName(userName);
 		return UsuarioDTO.create().withUserName(user.getUsername()).withEmail(user.getEmail())
 			.withId(user.getId());
 	}

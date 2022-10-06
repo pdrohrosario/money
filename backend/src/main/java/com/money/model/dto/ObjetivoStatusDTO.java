@@ -12,6 +12,8 @@ public class ObjetivoStatusDTO
 
 	private LocalDateTime dataFim;
 
+	public ObjetivoStatusDTO(){}
+
 	public ObjetivoStatusDTO(Double objetivoQuantia, Double quantiaAtual, LocalDateTime dataInicio,
 		LocalDateTime dataFim)
 	{

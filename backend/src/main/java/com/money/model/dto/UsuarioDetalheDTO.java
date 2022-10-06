@@ -5,6 +5,8 @@ import javax.validation.constraints.NotNull;
 
 public class UsuarioDetalheDTO
 {
+	private Long id;
+
 	@NotNull
 	private String email;
 
@@ -34,5 +36,10 @@ public class UsuarioDetalheDTO
 	public String getPassword()
 	{
 		return password;
+	}
+
+	public Long getId()
+	{
+		return id;
 	}
 }

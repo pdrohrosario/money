@@ -17,7 +17,7 @@ public class ObjetivoController
 	@Autowired
 	private ObjetivoService objetivoService;
 
-	@GetMapping("/{userName}")
+	@GetMapping("/objetivos/{userName}")
 	public List<ObjetivoDTO> list(@PathVariable("userName") String userName)
 	{
 
@@ -42,10 +42,16 @@ public class ObjetivoController
 	@GetMapping("/objetivos/status/{id}")
 	public ObjetivoStatusDTO goalStatus(@PathVariable Long id)
 	{
-		return this.objetivoService.verificateGoalStatus(id);
+		ObjetivoStatusDTO list = this.objetivoService.verificateGoalStatus(id);
+
+		if(list == null){
+			return new ObjetivoStatusDTO();
+		}
+
+		return list;
 	}
 
-	@GetMapping("/{userName}/objetivos/finalizados")
+	@GetMapping("/objetivos/finalizados/{userName}")
 
 	public List<ObjetivosFinalizadosDTO> listGoalsBeforeActualDate(@PathVariable("userName") String userName){
 
@@ -54,16 +60,18 @@ public class ObjetivoController
 			return null;
 		}
 
-		return this.objetivoService.listOldenGoalsByUserName(userName);
+		List<ObjetivosFinalizadosDTO> list = this.objetivoService.listOldenGoalsByUserName(userName);
+
+		return list;
 	}
 
-	@GetMapping("/objetivos/{id}")
+	@GetMapping("/objetivo/{id}")
 	public ObjetivoDetalheDTO search(@PathVariable Long id)
 	{
 		return this.objetivoService.search(id);
 	}
 
-	@DeleteMapping("/objetivos/{id}")
+	@DeleteMapping("/objetivo/{id}")
 	@Transactional
 	public ResponseEntity<?> delete(@PathVariable Long id)
 	{
@@ -78,7 +86,7 @@ public class ObjetivoController
 		}
 	}
 
-	@PutMapping("/objetivos/{id}")
+	@PutMapping("/objetivo/{id}")
 	@Transactional
 	public ResponseEntity<ObjetivoDTO> update(@PathVariable Long id, @RequestBody @Valid ObjetivoDetalheDTO form)
 		throws Exception
