@@ -36,7 +36,7 @@ public class TransferenciaController
 
 
 	@GetMapping("/transferencia/poupanca/{userName}")
-	public List<Transferencia>listaTransferenciasPoupancaAtual(@PathVariable String userName){
+	public List<TransferDTO>listaTransferenciasPoupancaAtual(@PathVariable String userName){
 		return  this.transferenciaService.listaTransferenciasPoupancaAtual(userName);
 	}
 

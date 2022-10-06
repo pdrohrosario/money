@@ -100,8 +100,7 @@ public class PlanoGastoService
 				plan.setDataFim(dto.getDataFim());
 			}
 
-			this.repository.update(plan.getTitulo(), plan.getQuantia(), plan.getDescricao(),
-				plan.getDataInicio(), plan.getDataFim(), plan.getId());
+			this.repository.update(plan.getId(), plan.getDataFim(), plan.getDescricao(), plan.getQuantia(), plan.getTitulo());
 
 			return new PlanoGastoDTO(plan.getId(), plan.getTitulo(), plan.getQuantia());
 		}

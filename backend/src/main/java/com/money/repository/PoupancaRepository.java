@@ -27,8 +27,8 @@ public interface PoupancaRepository extends JpaRepository<Poupanca, Long>
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE poupanca set plan_spent_id = :planoGastoId, user_id = :userId ) VALUES ( :plan_spent_id, :user_id);", nativeQuery = true)
-	void update(@Param("planoGastoId") Long planoGastoId, @Param("userId") Long userId);
+	@Query(value = "UPDATE poupanca set quantidade_meses = :qtdMes, quantia_mes_esperada: :qtdMesEsperada", nativeQuery = true)
+	void update(@Param("qtdMes") Integer qtdMes, @Param("qtdMesEsperada") Double qtdMesEsperada);
 
 	@Query(value = "select new com.money.model.dto.PoupancaDTO(k.id, plan.titulo, plan.quantia) from Poupanca k inner join PlanoGasto plan on plan.id = k.planoGasto.id inner join User u on u.id = k.user.id and u.userName = :userName")
 	List<PoupancaDTO> findPoupancaByUserName(@Param("userName") String userName);

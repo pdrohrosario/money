@@ -48,7 +48,7 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Long>
 
 
 	@Query(value =
-		"select new com.money.model.dto.ObjetivoStatusDTO(SUM(t.quantia), p.quantia, p.dataInicio, p.dataFim)  from Transferencia t "
+		"select new com.money.model.dto.ObjetivoStatusDTO(p.titulo,SUM(t.quantia), p.quantia, p.dataInicio, p.dataFim)  from Transferencia t "
 			+ "inner join Objetivo o on t.tipoGasto.id = o.tipoGasto.id "
 			+ " inner join PlanoGasto p on p.id = o.planoGasto.id "
 			+ "inner join User u on u.id=t.user.id and o.user.id = u.id where o.id = :objetivoId and t.data between p.dataInicio and p.dataFim")
@@ -62,7 +62,7 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Long>
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE objetivo g SET g.type_spent_id = :tipoGastoId WHERE g.id = :objetivoId ", nativeQuery = true)
+	@Query(value = "UPDATE objetivo g SET g.tipo_gasto_id = :tipoGastoId WHERE g.id = :objetivoId ", nativeQuery = true)
 	void update(@Param("tipoGastoId") Long tipoGastoId, @Param("objetivoId") Long objetivoId);
 
 	@Modifying
@@ -72,7 +72,7 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Long>
 		@Param("dataFim") LocalDateTime dataFim, @Param("objetivoId") Long objetivoId);
 
 	@Query(value =
-		" select new com.money.model.dto.ObjetivosFinalizadosDTO(g.id, p.quantia,  t.quantia, ts.nome, p.dataInicio, p.dataFim) from Objetivo g "
+		" select new com.money.model.dto.ObjetivosFinalizadosDTO(g.id,p.titulo, p.quantia,  t.quantia, ts.nome, p.dataInicio, p.dataFim) from Objetivo g "
 			+ "inner join Transferencia t on t.tipoGasto.id = g.tipoGasto.id inner join TipoGasto ts on ts.id = g.tipoGasto.id "
 			+ "inner join PlanoGasto p on p.id = g.planoGasto.id "
 			+ "inner join User u on  u.id = t.user.id and u.id = g.user.id and u.userName = :userName "

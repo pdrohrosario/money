@@ -10,6 +10,7 @@ import com.money.model.dto.PlanoGastoDetalheDTO;
 import com.money.repository.PoupancaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,15 +108,35 @@ public class PoupancaService
 		Poupanca poupanca = this.findPoupancaById(dto.getId());
 		if (poupanca != null)
 		{
+			Integer quantidadeMeses = 0;
+
+			Double quantiaMes = 0.0;
+
 			if(dto.getDataFim().isBefore(LocalDateTime.now())){
 				return null;
+			}
+
+			if(dto.getDataFim().isBefore(poupanca.getPlanSpent().getDataInicio())){
+				return null;
+			}
+
+			if(dto.getQuantia() != null && !Objects.equals(dto.getQuantia(),
+				poupanca.getPlanSpent().getQuantia()))
+			{
+				quantidadeMeses = (dto.getDataFim().getMonth().getValue() - poupanca.getPlanSpent().getDataInicio().getMonth().getValue());
+
+				quantiaMes = dto.getQuantia() / quantidadeMeses;
+
+				poupanca.setQuantiaMesEsperada(quantiaMes);
+
+				poupanca.setQuantidadeMeses(quantidadeMeses);
 			}
 
 			PlanoGastoDTO plan = this.planoGastoService.update(
 				new PlanoGastoDetalheDTO(poupanca.getPlanSpent().getId(), dto.getTitulo(),
 					dto.getQuantia(), dto.getDescricao(), LocalDateTime.now(), dto.getDataFim()));
 
-			this.repository.update(plan.getId(), poupanca.getUser().getId());
+			this.repository.update(poupanca.getQuantidadeMeses(),poupanca.getQuantiaMesEsperada());
 
 			return new PoupancaDTO(poupanca.getId(), plan.getTitulo(), plan.getQuantia());
 		}

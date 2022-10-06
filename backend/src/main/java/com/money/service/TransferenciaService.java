@@ -90,7 +90,7 @@ public class TransferenciaService
 		return false;
 	}
 
-	public List<Transferencia>listaTransferenciasPoupancaAtual(String userName){
+	public List<TransferDTO>listaTransferenciasPoupancaAtual(String userName){
 		return this.transferenciaRepository.listaTransferenciasPoupancaAtiva(userName);
 	}
 

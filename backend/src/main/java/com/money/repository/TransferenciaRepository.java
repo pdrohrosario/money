@@ -57,11 +57,13 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
 	@Query(value = "SELECT pa.transferencia_id FROM poupanca_transferencia pa where pa.poupanca_id = :poupancaId", nativeQuery = true)
 	List<Long> findTransferenciasIdByPoupancaId(@Param("poupancaId") Long poupancaId);
 
-	@Query(value = "SELECT * FROM transferencia t  inner join user u on u.id = t.user_id and u.user_name = 'andreSilva' "
-		+ " inner join plano_gasto pg  "
-		+ " inner join poupanca p on p.plano_gasto_id = pg.id and p.user_id = u.id "
-		+ "inner join tipo_gasto tg on tg.id = t.tipo_gasto_id and tg.nome = 'POUPANÇA'"
-		+ " where t.data between pg.data_inicio and pg.data_fim ",nativeQuery = true)
-	List<Transferencia> listaTransferenciasPoupancaAtiva(String userName);
+	@Query(value = "SELECT new com.money.model.dto.TransferDTO(t.id, t.quantia, t.data, ts.nome) FROM Transferencia t  "
+		+ "inner join User u on u.id = t.user.id and u.userName = :userName "
+
+		+ " inner join Poupanca p on p.user.id = u.id "
+		+ " inner join PlanoGasto pg on p.planoGasto.id = pg.id "
+		+ "inner join TipoGasto ts on ts.id = t.tipoGasto.id and ts.nome = 'POUPANÇA'"
+		+ " where t.data between pg.dataInicio and pg.dataFim ")
+	List<TransferDTO> listaTransferenciasPoupancaAtiva(String userName);
 
 }

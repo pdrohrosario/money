@@ -39,6 +39,9 @@ public class PoupancaController
 		throws Exception
 	{
 		PoupancaDTO dto = this.service.create(form);
+		if(dto == null){
+			return ResponseEntity.notFound().build();
+		}
 		URI uri = uriBuilder.path("/poupanca/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}

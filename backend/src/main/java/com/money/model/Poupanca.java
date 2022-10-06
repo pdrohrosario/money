@@ -26,6 +26,61 @@ public class Poupanca
 
 	private Double quantiaMesEsperada;
 
+	public PlanoGasto getPlanoGasto()
+	{
+		return planoGasto;
+	}
+
+	public void setPlanoGasto(PlanoGasto planoGasto)
+	{
+		this.planoGasto = planoGasto;
+	}
+
+	public List<Transferencia> getTransferencias()
+	{
+		return transferencias;
+	}
+
+	public void setTransferencias(List<Transferencia> transferencias)
+	{
+		this.transferencias = transferencias;
+	}
+
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
+
+	public Integer getQuantidadeMinimaTransferencias()
+	{
+		return quantidadeMinimaTransferencias;
+	}
+
+	public void setQuantidadeMinimaTransferencias(Integer quantidadeMinimaTransferencias)
+	{
+		this.quantidadeMinimaTransferencias = quantidadeMinimaTransferencias;
+	}
+
+	public Integer getQuantidadeMeses()
+	{
+		return quantidadeMeses;
+	}
+
+	public void setQuantidadeMeses(Integer quantidadeMeses)
+	{
+		this.quantidadeMeses = quantidadeMeses;
+	}
+
+	public Double getQuantiaMesEsperada()
+	{
+		return quantiaMesEsperada;
+	}
+
+	public void setQuantiaMesEsperada(Double quantiaMesEsperada)
+	{
+		this.quantiaMesEsperada = quantiaMesEsperada;
+	}
+
 	public PlanoGasto getPlanSpent()
 	{
 		return planoGasto;

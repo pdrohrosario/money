@@ -21,11 +21,10 @@ public interface PlanoDeGastoRepository extends JpaRepository<PlanoGasto, Long>
 	@Query(value = "DELETE FROM plano_gasto p where p.id = :id", nativeQuery = true)
 	void delete(@Param("id") Long id);
 
-	@Query(value = "UPDATE plano_gasto p SET titulo = :titulo, quantia = :quantia, descricao = :descricao, data_inicio = :dataInicio, data_fim = :dataFim"
-		+ " WHERE p.id = :id", nativeQuery = true)
-	void update(@Param("titulo") String titulo, @Param("quantia") Double quantia,
-		@Param("descricao") String descricao, @Param("dataInicio") LocalDateTime dataInicio,
-		@Param("dataFim") LocalDateTime dataFim, @Param("id") Long id);
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE plano_gasto p SET titulo = :titulo, quantia = :quantia, descricao = :descricao, data_fim = :dataFim WHERE p.id = :idPlan ;", nativeQuery = true)
+	void update(@Param("idPlan") Long idPlan,@Param("dataFim") LocalDateTime dataFim,@Param("descricao") String descricao,  @Param("quantia") Double quantia,@Param("titulo") String titulo);
 
 	@Modifying
 	@Transactional

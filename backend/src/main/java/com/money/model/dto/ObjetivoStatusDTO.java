@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 public class ObjetivoStatusDTO
 {
+	private String titulo;
+
 	private Double objetivoQuantia;
 
 	private Double quantiaAtual;
@@ -14,9 +16,10 @@ public class ObjetivoStatusDTO
 
 	public ObjetivoStatusDTO(){}
 
-	public ObjetivoStatusDTO(Double objetivoQuantia, Double quantiaAtual, LocalDateTime dataInicio,
+	public ObjetivoStatusDTO(String titulo, Double objetivoQuantia, Double quantiaAtual, LocalDateTime dataInicio,
 		LocalDateTime dataFim)
 	{
+		this.titulo = titulo;
 		this.objetivoQuantia = objetivoQuantia;
 		this.quantiaAtual = quantiaAtual;
 		this.dataInicio = dataInicio;
@@ -26,6 +29,11 @@ public class ObjetivoStatusDTO
 	public Double getObjetivoQuantia()
 	{
 		return objetivoQuantia;
+	}
+
+	public String getTitulo()
+	{
+		return titulo;
 	}
 
 	public Double getQuantiaAtual()
