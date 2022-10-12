@@ -25,7 +25,7 @@ export class NewUserComponent implements OnInit {
       email:['',[
         Validators.required, Validators.email
       ]],
-      userName:['',[Validators.required,Validators.minLength(7)],,[this.userExistsService.userExists()]],
+      userName:['',[Validators.required,Validators.minLength(7)]],
       name:['',[
         Validators.required, Validators.minLength(10)
       ]],
