@@ -4,21 +4,15 @@
     <input
       class="form-control"
       type="text"
-      placeholder="Email"
-      formControlName="email"
-      name="email"
+      placeholder="Username"
+      formControlName="userName"
+      name="userName"
     />
     <app-message
       *ngIf="
-        loginForm.get('email')?.errors?.['required'] &&
-        loginForm.get('email')?.touched"
-      message="O campo email é obrigatório"
-    ></app-message>
-    <app-message
-      *ngIf="
-        loginForm.get('email')?.errors?.['email'] &&
-        loginForm.get('email')?.touched"
-      message="O email está no formato incorreto"
+        loginForm.get('userName')?.errors?.['required'] &&
+        loginForm.get('userName')?.touched"
+      message="O campo username é obrigatório"
     ></app-message>
   </div>
   <div class="form-group mb-3">
