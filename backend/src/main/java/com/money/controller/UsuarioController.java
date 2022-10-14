@@ -1,5 +1,6 @@
 package com.money.controller;
 
+import com.money.model.User;
 import com.money.model.dto.UsuarioDetalheDTO;
 import com.money.model.dto.UsuarioDTO;
 import com.money.service.UsuarioService;
@@ -40,6 +41,15 @@ public class UsuarioController
 	@GetMapping("/{userName}")
 	public ResponseEntity<UsuarioDTO> search(@PathVariable String userName){
 		UsuarioDTO dto = this.usuarioService.search(userName);
+		if(dto == null){
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping("/find/{userId}")
+	public ResponseEntity<UsuarioDTO> findById(@PathVariable Integer userId){
+		UsuarioDTO dto = this.usuarioService.searchById(userId.longValue());
 		if(dto == null){
 			return ResponseEntity.notFound().build();
 		}

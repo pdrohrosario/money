@@ -50,6 +50,13 @@ public class UsuarioService
 			.withId(user.getId());
 	}
 
+	public UsuarioDTO searchById(Long id)
+	{
+		User user = this.findUserById(id);
+		return UsuarioDTO.create().withUserName(user.getUsername()).withEmail(user.getEmail())
+			.withId(user.getId());
+	}
+
 	public User findUserById(Long id)
 	{
 		Optional<User> user = this.usuarioRepository.findUserById(id);
