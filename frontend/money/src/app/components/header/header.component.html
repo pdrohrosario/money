@@ -1,0 +1,21 @@
+<header class="sticky-top">
+  <div class="row mx-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand">Money</a>
+      <div *ngIf="user$ | async as user">
+        <div *ngIf="user.userName; else login">
+          <i class="fa fa-user-circle mr-1"> </i>
+          <a class="mr-1">{{ user.userName }}</a>
+          <a (click)="logout()">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <ng-template #login>
+      <span class="navbar-text">
+        <a [routerLink]="['']">Login</a>
+      </span>
+    </ng-template>
+  </div>
+</header>
+

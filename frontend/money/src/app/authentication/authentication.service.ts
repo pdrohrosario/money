@@ -23,7 +23,8 @@ export class AuthenticationService {
     ).pipe(
       tap((response) =>{
         const authToken = response?.body  as Token;
-        this.userService.saveToken(authToken.token || '');
+        let auth  = authToken.token != null ? authToken.token : '';
+        this.userService.saveToken(auth);
       })
     );
   }
