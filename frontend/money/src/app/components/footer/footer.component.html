@@ -1,13 +1,38 @@
-<footer class="mt-5">
-  <div class="fixed-bottom bg-white p-1">
-    <div class="container">
-      <div class="row text-centert">
-        <div class="col-6">
-          <a [routerLink]="['']">
-            <i class="fa fa-home fa-2x"></i>
-          </a>
-        </div>
-      </div>
-    </div>
+<footer class="text-center text-white fixed-bottom" style="background-color: #f1f1f1;">
+  <!-- Grid container -->
+  <div class="container pt-2">
+    <!-- Section: Social media -->
+    <section class="mb-2">
+
+      <a
+        class="btn btn-link btn-floating btn-lg text-dark m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+      ><i class="fa fa-facebook-f"></i
+      ></a>
+
+      <a
+        class="btn btn-link btn-floating btn-lg text-dark m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+      ><i class="fa fa-instagram"></i
+      ></a>
+
+
+      <a
+        class="btn btn-link btn-floating btn-lg text-dark m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+      ><i class="fa fa-linkedin"></i
+      ></a>
+    </section>
+  </div>
+
+  <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2020 Copyright:
+  <a class="text-dark" [routerLink]="['']">Money.com</a>
   </div>
 </footer>
