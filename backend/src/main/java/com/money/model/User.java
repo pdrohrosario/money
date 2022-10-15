@@ -12,21 +12,29 @@ public class User implements UserDetails
 {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+
 	private String email;
+	private String name;
+
+	private String userName;
 	private String password;
 
 	@OneToMany
-	private List<Goal> goal = new ArrayList<>();
+	List<Transferencia> transferencias;
 
 	@OneToMany
-	private List<Transfer> Transfer = new ArrayList<>();
+	List<Objetivo> objetivos;
+
+	@OneToMany
+	List<Poupanca> keepMonies;
+
 	public User(){}
 
-	public User(String name, String email, String password)
+	public User(String email, String name, String userName, String password)
 	{
-		this.name = name;
 		this.email = email;
+		this.name = name;
+		this.userName = userName;
 		this.password = password;
 	}
 
@@ -62,7 +70,7 @@ public class User implements UserDetails
 	@Override
 	public String getUsername()
 	{
-		return this.email;
+		return this.userName;
 	}
 
 	@Override
@@ -145,23 +153,4 @@ public class User implements UserDetails
 		this.perfis = perfis;
 	}
 
-	public List<Goal> getGoal()
-	{
-		return goal;
-	}
-
-	public void setGoal(List<Goal> goal)
-	{
-		this.goal = goal;
-	}
-
-	public List<com.money.model.Transfer> getTransfer()
-	{
-		return Transfer;
-	}
-
-	public void setTransfer(List<com.money.model.Transfer> transfer)
-	{
-		Transfer = transfer;
-	}
 }

@@ -24,8 +24,9 @@ export class NewUserComponent implements OnInit {
     this.newUserForm = this.formBuilder.group({
       email:['',[
         Validators.required, Validators.email
-      ],[this.userExistsService.userExists()]],
-      fullName:['',[
+      ]],
+      userName:['',[Validators.required,Validators.minLength(7)]],
+      name:['',[
         Validators.required, Validators.minLength(10)
       ]],
       password:['',[Validators.required, Validators.minLength(10)]]

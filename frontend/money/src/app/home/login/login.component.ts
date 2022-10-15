@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      userName: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
@@ -28,13 +28,13 @@ export class LoginComponent implements OnInit {
   login() {
     const loginUser = this.loginForm.getRawValue() as Login;
     this.authService
-      .authenticate(loginUser.email, loginUser.password)
+      .authenticate(loginUser.userName, loginUser.password)
       .subscribe(
         () => {
           this.router.navigate(['transfer']);
         },
         (error) => {
-          alert('Email ou Senha inválido');
+          alert('userName ou Senha inválido');
           console.log(error);
         }
       );

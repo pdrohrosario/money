@@ -21,35 +21,57 @@
       "
       message="O email está no formato incorreto"
     ></app-message>
+  </div>
+  <div class="form-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Name"
+      formControlName="name"
+    />
     <app-message
       *ngIf="
-        newUserForm.get('email')?.errors?.['userExists'] &&
-        newUserForm.get('email')?.touched
+        newUserForm.get('name')?.errors?.['required'] &&
+        newUserForm.get('name')?.touched
       "
-      message="Este email já está cadastrado"
+      message="O campo name é obrigatório"
+    ></app-message>
+    <app-message
+      *ngIf="
+        newUserForm.get('name')?.errors?.['minlength'] &&
+        newUserForm.get('name')?.touched
+      "
+      message="O campo name está muito curto"
     ></app-message>
   </div>
   <div class="form-group mb-3">
     <input
       type="text"
       class="form-control"
-      placeholder="Full Name"
-      formControlName="fullName"
+      placeholder="Username"
+      formControlName="userName"
     />
     <app-message
       *ngIf="
-        newUserForm.get('fullName')?.errors?.['required'] &&
-        newUserForm.get('fullName')?.touched
+        newUserForm.get('userName')?.errors?.['required'] &&
+        newUserForm.get('userName')?.touched
       "
-      message="O campo fullname é obrigatório"
+      message="O campo username é obrigatório"
     ></app-message>
     <app-message
       *ngIf="
-        newUserForm.get('fullName')?.errors?.['minlength'] &&
-        newUserForm.get('fullName')?.touched
+        newUserForm.get('userName')?.errors?.['minlength'] &&
+        newUserForm.get('userName')?.touched
       "
-      message="O campo fullname está muito curto"
+      message="O campo username está muito curto"
     ></app-message>
+    <!--<app-message
+      *ngIf="
+        newUserForm.get('userName')?.errors?.['userExists'] &&
+        newUserForm.get('userName')?.touched
+      "
+      message="Este username já pertence a um usuário"
+    ></app-message>-->
   </div>
   <div class="form-group mb-3">
     <input
