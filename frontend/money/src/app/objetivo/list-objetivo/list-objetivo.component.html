@@ -1,0 +1,6 @@
+<div *ngIf="objetivos$ | async as objetivos">
+  <div class="container my-3">
+    <h1 class="my-1" >Suas Objetivos:</h1>
+    <app-grade-goal [objetivos]="objetivos"></app-grade-goal>
+   </div>
+</div>

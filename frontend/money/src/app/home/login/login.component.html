@@ -1,0 +1,53 @@
+<h3 class="text-center">Login</h3>
+<form class="form mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="form-group mb-3">
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Username"
+      formControlName="userName"
+      name="userName"
+    />
+    <app-message
+      *ngIf="
+        loginForm.get('userName')?.errors?.['required'] &&
+        loginForm.get('userName')?.touched"
+      message="O campo username é obrigatório"
+    ></app-message>
+  </div>
+  <div class="form-group mb-3">
+    <input
+      class="form-control"
+      type="password"
+      placeholder="Password"
+      name="password"
+      formControlName="password"
+      required
+    />
+    <app-message
+      *ngIf="
+    loginForm.get('password')?.errors?.['required'] &&
+    loginForm.get('password')?.touched
+    "
+      message="O campo password é obrigatório"
+    ></app-message>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <button
+        type="submit"
+        class="btn btn-success btn-block"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+    </div>
+    <div class="col-md-8">
+      <p class="text-muted ">
+        Não possui cadastro no Money?<a [routerLink]="['new-user']"
+          >Acesse esse link</a
+        >
+      </p>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,11 @@
+<div class="row">
+  <div *ngFor="let transfer of transfers" class="col-md-4 col-sm-6">
+    <app-card-transfer [quantiaGasta]="transfer.quantiaGasta" [data]="transfer.data" [tipoGasto]="transfer.tipoGasto">
+
+      <a [routerLink]="['/transfer/view', transfer.id]" class="link-dark"><i class="bi bi-search"></i></a>
+      <a class="link-dark mx-4" (click)="delete(transfer.id)"><i class="bi bi-trash3"></i></a>
+      <a [routerLink]="['/transfer/edit', transfer.id]" class="link-dark"><i class="bi bi-pencil-fill"></i></a>
+
+    </app-card-transfer>
+  </div>
+</div>

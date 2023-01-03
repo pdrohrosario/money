@@ -1,0 +1,10 @@
+<div class="card mb-3 shadow-sm rounded-1">
+  <div class="card-header">
+    <h5 class="card-title">{{ quantia | currency }}</h5>
+  </div>
+  <div class="card-body">
+    <h5 class="card-subtitle">{{ titulo}}</h5>
+    <h6 class="card-subtitle my-3 text-muted">{{ tipoGasto }}</h6>
+    <ng-content class="mt-2"></ng-content>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+<h4 class="text-center">Cadastre-se e otimize os seus gastos.</h4>
+<form class="form mt-4" [formGroup]="newUserForm" (submit)="create()">
+  <div class="form-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Email"
+      formControlName="email"
+    />
+    <app-message
+      *ngIf="
+        newUserForm.get('email')?.errors?.['required'] &&
+        newUserForm.get('email')?.touched
+      "
+      message="O campo email é obrigatório"
+    ></app-message>
+    <app-message
+      *ngIf="
+        newUserForm.get('email')?.errors?.['email'] &&
+        newUserForm.get('email')?.touched
+      "
+      message="O email está no formato incorreto (teste@gmai.com)"
+    ></app-message>
+  </div>
+  <div class="form-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Name"
+      formControlName="name"
+    />
+    <app-message
+      *ngIf="
+        newUserForm.get('name')?.errors?.['required'] &&
+        newUserForm.get('name')?.touched
+      "
+      message="O campo name é obrigatório"
+    ></app-message>
+    <app-message
+      *ngIf="
+        newUserForm.get('name')?.errors?.['minlength'] &&
+        newUserForm.get('name')?.touched
+      "
+      message="O campo name deve ter mais de 10 dígitos"
+    ></app-message>
+  </div>
+  <div class="form-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Username"
+      formControlName="userName"
+    />
+    <app-message
+      *ngIf="
+        newUserForm.get('userName')?.errors?.['required'] &&
+        newUserForm.get('userName')?.touched
+      "
+      message="O campo username é obrigatório"
+    ></app-message>
+    <app-message
+      *ngIf="
+        newUserForm.get('userName')?.errors?.['minlength'] &&
+        newUserForm.get('userName')?.touched
+      "
+      message="O campo username deve ter mais de 7 dígitos"
+    ></app-message>
+  </div>
+  <div class="form-group mb-3">
+    <input
+      type="password"
+      class="form-control"
+      placeholder="Password"
+      formControlName="password"
+    />
+    <app-message
+    *ngIf="
+      newUserForm.get('password')?.errors?.['required'] &&
+      newUserForm.get('password')?.touched
+    "
+    message="O campo password é obrigatório"
+  ></app-message>
+  <app-message
+    *ngIf="
+      newUserForm.get('password')?.errors?.['minlength'] &&
+      newUserForm.get('password')?.touched
+    "
+    message="O campo password deve ter mais de 10 dígitos"
+  ></app-message>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-success btn-block" [disabled]="newUserForm.invalid">Criar Conta</button>
+    </div>
+    <div class="col-md-8">
+      <p class="text-muted">
+        Já possui cadastro no Money?<a [routerLink]="['']">Acesse esse link</a>
+      </p>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,116 @@
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <h3>{{isEditMode ? "Editar Perfil" :"Perfil"}}:</h3>
+          </div>
+          <hr>
+          <form class="form mt-4" [formGroup]="perfilEditForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group mb-4">
+              <label class="form-label" for="name">Nome</label>
+              <input type="text" class="form-control" formControlName="name" id="name" [readOnly]="!isEditMode"/>
+            </div>
+            <app-message
+              *ngIf="
+                perfilEditForm.get('name')?.errors?.['required'] &&
+                perfilEditForm.get('name')?.touched
+                "
+              message="O campo name é obrigatório"
+            ></app-message>
+            <app-message
+              *ngIf="
+                perfilEditForm.get('name')?.errors?.['minlength'] &&
+                perfilEditForm.get('name')?.touched
+                "
+              message="O campo name deve ter mais de 10 dígitos"
+            ></app-message>
+
+            <div class="form-group mb-4">
+              <label class="form-label" for="userName">Username</label>
+              <input type="text" formControlName="userName" id="userName" class="form-control"
+                     [readOnly]="!isEditMode"/>
+            </div>
+            <app-message
+              *ngIf="
+                perfilEditForm.get('userName')?.errors?.['required'] &&
+                perfilEditForm.get('userName')?.touched
+                "
+              message="O campo username é obrigatório"
+            ></app-message>
+            <app-message
+              *ngIf="
+                perfilEditForm.get('userName')?.errors?.['minlength'] &&
+                perfilEditForm.get('userName')?.touched
+                "
+              message="O campo username deve ter mais de 7 dígitos"
+            ></app-message>
+            <div class="form-group mb-4">
+              <label class="form-label" for="email">Email</label>
+              <input type="text" formControlName="email" id="email" class="form-control" [readOnly]="!isEditMode"/>
+            </div>
+            <app-message
+              *ngIf="
+                    perfilEditForm.get('email')?.errors?.['required'] &&
+                    perfilEditForm.get('email')?.touched
+                    "
+              message="O campo email é obrigatório"
+            ></app-message>
+            <app-message
+              *ngIf="
+                  perfilEditForm.get('email')?.errors?.['email'] &&
+                  perfilEditForm.get('email')?.touched
+                  "
+              message="O email está no formato incorreto (teste@gmai.com)"
+            ></app-message>
+            <div class="form-group mb-5">
+              <div *ngIf="isUpdatePassword">
+              <label class="form-label" for="password">Nova senha</label>
+              <input type="text" formControlName="password" id="password" class="form-control"
+                       [readOnly]="!isEditMode"/>
+              </div>
+              <app-message
+                  *ngIf="
+                    perfilEditForm.get('password')?.errors?.['required'] &&
+                    perfilEditForm.get('password')?.touched
+                  "
+                  message="O campo password é obrigatório"
+                ></app-message>
+                <app-message
+                  *ngIf="
+                    perfilEditForm.get('password')?.errors?.['minlength'] &&
+                    perfilEditForm.get('password')?.touched
+                  "
+                  message="O campo password deve ter mais de 10 dígitos"
+                ></app-message>
+             <button class="btn btn-secondary d-block" type="button" *ngIf="isEditMode && !isUpdatePassword"
+                      (click)="isUpdatePassword = !isUpdatePassword" id="buttonpassword">Alterar Senha
+              </button>
+            </div>
+
+
+            <div class="d-flex justify-content-between">
+              <div>
+                <button class="btn btn-secondary ml-4" type="button" [routerLink]="['/transfer']">Voltar</button>
+                <button class="btn btn-primary" type="button" *ngIf="!isEditMode" (click)="isEditMode = !isEditMode;">
+                  Alterar
+                </button>
+              <button class="btn btn-danger" type="button" *ngIf="isEditMode" (click)="reset()">
+                  Cancelar
+                </button>
+
+              </div>
+              <button class="btn btn-danger " *ngIf="!isEditMode" type="button" (click)="excluirConta()">Excluir Conta</button>
+              <button class="btn btn-success " *ngIf="isEditMode" [disabled]="perfilEditForm.invalid" type="submit">
+                Confirmar
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

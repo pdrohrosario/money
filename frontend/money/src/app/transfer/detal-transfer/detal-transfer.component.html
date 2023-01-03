@@ -1,0 +1,44 @@
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <h3>Editar:</h3>
+          </div>
+          <hr>
+          <form class="form mt-4" [formGroup]="transferDetalForm">
+            <div class="form-group mb-4">
+              <label class="form-label" for="quantiaGasta">Quantia Gasta</label>
+              <input type="text" formControlName="quantiaGasta" id="quantiaGasta" class="form-control" [readOnly]="true" [readOnly]="true"  />
+            </div>
+            <div class="form-group mb-4">
+              <label class="form-label" for="descricao">Descrição</label>
+              <input type="text" formControlName="descricao" id="descricao" rows="4" class="form-control" [readOnly]="true"  />
+            </div>
+            <div class="form-group mb-4">
+              <label class="form-label" for="data">Data</label>
+              <input type="date" formControlName="data" id="data" class="form-control" [readOnly]="true" />
+            </div>
+
+            <div class="form-group mb-4">
+
+              <label class="form-label" for="formaPagamento">Forma de Pagamento</label>
+              <input type="text" formControlName="formaPagamento" id="formaPagamento" class="form-control" [readOnly]="true" />
+            </div>
+            <div class="form-group mb-4">
+              <label class="form-label" for="tipoGasto">Tipo de Gasto</label>
+              <input type="text" formControlName="tipoGasto" id="tipoGasto" class="form-control" [readOnly]="true" />
+            </div>
+
+
+            <div class="d-grid gap-1 d-md-block">
+              <button type="button" class="btn btn-secondary btn-block" [routerLink]="['/transfer']">Voltar</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

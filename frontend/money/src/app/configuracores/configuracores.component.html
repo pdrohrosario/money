@@ -1,0 +1,150 @@
+<div class="container my-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="my-1">Tipos de Gastos:</h1>
+      <form class="form mt-4" [formGroup]="tipoGastoEditForm" (ngSubmit)="onSubmitTipoGasto()">
+        <div class="form-group mb-2">
+          <input type="text" formControlName="nome" id="nomeTipoGasto" class="form-control inputUpper" placeholder="Nome:"/>
+        </div>
+             <app-message
+                  *ngIf="
+                    tipoGastoEditForm.get('nome')?.errors?.['required'] &&
+                    tipoGastoEditForm.get('nome')?.touched
+                  "
+                  message="O campo nome é obrigatório"
+                ></app-message>
+                <app-message
+                  *ngIf="
+                    tipoGastoEditForm.get('nome')?.errors?.['minlength'] &&
+                    tipoGastoEditForm.get('nome')?.touched
+                  "
+                  message="O campo nome deve ter mais de 5 dígitos"
+                ></app-message>
+        <div class="form-group">
+          <div class="d-grid  mt-1 gap-2 d-md-block">
+            <button class="btn btn-success" [disabled]="tipoGastoEditForm.invalid" type="submit">Confirmar</button>
+            <button type="button" class="btn btn-secondary" (click)="cleanTipoGastoForm()">Cancelar</button>
+          </div>
+        </div>
+      </form>
+      <div class=“container”>
+
+        <table class="table table-responsive my-5">
+
+          <thead>
+
+          <tr>
+
+            <th>ID</th>
+
+            <th>Nome</th>
+
+            <th></th>
+
+            <th></th>
+
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+          <tr *ngFor="let tipoGasto of tipoGastoList">
+
+            <td>{{ tipoGasto.id}}</td>
+
+            <td>{{ tipoGasto.nome}}</td>
+
+            <td>
+             <button type="button" class="btn btn-primary" (click)="atualizarTipoGasto(tipoGasto)">Alterar</button>
+            </td>
+            <td>
+             <button type="button" class="btn btn-danger" (click)="excluirTipoGasto(tipoGasto.id)">Excluir</button>
+
+            </td>
+
+
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+    <div class="col-md-6">
+      <h1 class="my-1"> Forma de Pagamento:</h1>
+      <form class="form mt-4" [formGroup]="formaPagamentoEditForm" (ngSubmit)="onSubmitFormaPagamento()">
+        <div class="form-group mb-2">
+          <input type="text" formControlName="nome" id="nomeFormaPagamento" class="form-control inputUpper" placeholder="Nome:"/>
+        </div>
+        <app-message
+                  *ngIf="
+                    formaPagamentoEditForm.get('nome')?.errors?.['required'] &&
+                    formaPagamentoEditForm.get('nome')?.touched
+                  "
+                  message="O campo nome é obrigatório"
+                ></app-message>
+                <app-message
+                  *ngIf="
+                    formaPagamentoEditForm.get('nome')?.errors?.['minlength'] &&
+                    formaPagamentoEditForm.get('nome')?.touched
+                  "
+                  message="O campo nome deve ter mais de 5 dígitos"
+                ></app-message>
+        <div class="form-group">
+          <div class="d-grid  mt-1 gap-2 d-md-block">
+            <button class="btn btn-success" [disabled]="formaPagamentoEditForm.invalid" type="submit">Confirmar</button>
+            <button type="button" class="btn btn-secondary" (click)="cleanFormaPagamentoForm()">Cancelar</button>
+          </div>
+        </div>
+      </form>
+
+      <div class=“container”>
+
+        <table class="table table-responsive my-5">
+
+          <thead>
+
+          <tr>
+
+            <th>ID</th>
+
+            <th>Nome</th>
+
+            <th></th>
+
+            <th></th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+          <tr *ngFor="let formaPagamento of formaPagamentoList">
+
+            <td>{{formaPagamento.id}}</td>
+
+            <td>{{ formaPagamento.nome}}</td>
+
+            <td>
+            <button type="button" class="btn btn-primary" (click)="atualizarFormaPagamento(formaPagamento)">Alterar</button>
+            </td>
+            <td>
+             <button type="button" class="btn btn-danger" (click)="excluirFormaPagamento(formaPagamento.id)">Excluir</button>
+
+            </td>
+
+
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
